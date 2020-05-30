@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
+
+
+    <TextView
+        android:id="@+id/tv_net"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="网络测试"
+        android:textColor="@color/text_color" />
+
+    <include layout="@layout/line_view_gray_1" />
+
+    <TextView
+        android:id="@+id/tv_kotlin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="kotlin测试"
+        android:textColor="@color/text_color" />
+
+    <include layout="@layout/line_view_gray_1" />
+
+    <TextView
+        android:id="@+id/tv_mvp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="mvp测试"
+        android:textColor="@color/text_color" />
+
+    <include layout="@layout/line_view_gray_1" />
+</LinearLayout>
