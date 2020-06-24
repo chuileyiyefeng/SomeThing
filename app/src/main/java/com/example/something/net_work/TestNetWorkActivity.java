@@ -1,16 +1,13 @@
 package com.example.something.net_work;
 
-import android.graphics.Rect;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.example.something.R;
+import com.example.something.net_work.base.BaseAdapter;
 import com.example.something.net_work.base.BaseMvpActivity;
 import com.example.something.net_work.bean.Article;
 
 import java.util.ArrayList;
 
-public class TestNetWorkActivity extends BaseMvpActivity<ArticlePresenter> implements ArticleView, LoadListener {
+public class TestNetWorkActivity extends BaseMvpActivity<ArticlePresenter> implements ArticleView, LoadListener, BaseAdapter.ItemClick {
 
     ArticleAdapter adapter;
 
@@ -24,14 +21,13 @@ public class TestNetWorkActivity extends BaseMvpActivity<ArticlePresenter> imple
         return R.layout.activity_net_work;
     }
 
-    Rect rect;
-    int distance;
 
     @Override
     protected void initView() {
         adapter = new ArticleAdapter(this);
         setLoadListener(adapter, this);
         setLoadMode(true, true);
+        adapter.addItemClick(this);
     }
 
     @Override
@@ -58,5 +54,10 @@ public class TestNetWorkActivity extends BaseMvpActivity<ArticlePresenter> imple
     @Override
     public void refreshing() {
         presenter.getData();
+    }
+
+    @Override
+    public void itemClick(int position) {
+
     }
 }

@@ -26,8 +26,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     protected abstract int bindLayout();
 
 
-    protected void initView() {
-    }
+    protected  abstract void initView();
 
     protected void initPresenter() {
     }

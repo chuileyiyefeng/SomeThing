@@ -12,9 +12,7 @@ public class BasePresenter<V extends BaseView> {
     private CompositeDisposable disposable;
     public V baseView;
 
-    /**
-     * 这个后面可以直接用   Example：apiServer.login(username, password)；
-     */
+
     protected ApiUrl apiServer = RetrofitUtils.getApiUrl();
 
     public BasePresenter(V baseView) {

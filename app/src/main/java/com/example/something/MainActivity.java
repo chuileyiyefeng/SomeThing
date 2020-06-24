@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.tv_net, R.id.tv_mvp})
+    @OnClick({R.id.tv_net, R.id.tv_mvp,R.id.tv_rx_java})
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.tv_net:
@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tv_kotlin:
                 break;
             case R.id.tv_mvp:
+                break;
+            case R.id.tv_rx_java:
+                startActivity(new Intent(this, TestRxJavaActivity.class));
                 break;
         }
     }
