@@ -1,0 +1,25 @@
+ P层里有M层和V层
+
+ V层需要做什么，交给P层，P层转发给M层去做，M层做完结果告诉P层，P在通知V层改变
+
+ 三个基类
+ BaseView 、BasePresenter、BaseModel
+
+ 一个CONTRACT（一个功能模块对应一个CONTRACT）
+ CONTRACT是接口，里面包含三个接口 M、V、P
+ 这三个接口里各自定义自己要做的方法
+
+ BaseView
+ 要有继承自BasePresenter的泛型类、CONTRACT泛型类
+ 要有获得presenter的抽象方法 、获得CONTRACT的抽象方法
+
+
+ BasePresenter
+ 要有继承自BaseModel的泛型类、继承自BaseView的泛型类、CONTRACT泛型类
+ 要有获得Model的抽象方法
+
+
+ BaseView
+ 要有继承自BasePresenter的泛型类、CONTRACT泛型类
+ 这个类就是具体的view（Activity、Fragment）
+ 负责发起功能、接收功能完成结果

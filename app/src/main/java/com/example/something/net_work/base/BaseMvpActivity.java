@@ -42,7 +42,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompat
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         StatusBarUtil.setStatusBarColor(this, R.color.white);
         StatusBarUtil.setStatusTextDark(this, true);
         setContentView(LayoutInflater.from(this).inflate(getLayoutId(), null));
