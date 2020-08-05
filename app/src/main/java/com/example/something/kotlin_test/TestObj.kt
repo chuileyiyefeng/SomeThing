@@ -1,6 +1,43 @@
 package com.example.something.kotlin_test
 
-class TestObj(private val name: String, age: Int) {
+import java.util.*
+
+class TestObj(private val name: String) {
+    // init 初始化块 多个初始化块顺序执行
+//    init {
+//        println("init ")
+//    }
+//
+//    init {
+//        println("init2 ")
+//    }
+
+    // 次级构造函数，调用次级构造函数时必须调用主构造函数
+    constructor(name: String, age: Int, money: Int) : this(name) {
+//        println("name=$name  age=$age  money=$money")
+    }
+
+    // 嵌套类 嵌套类不能访问外部类的成员
+    open class Inner {
+        fun toPrint() {
+            println("这是嵌套类")
+        }
+    }
+
+    // 枚举类
+    enum class Color(name: String, value: Int) {
+        RED("red", 0), YELLOW("yellow", 1)
+    }
+
+    // 函数可以作为其他函数的参数
+
+    fun sum(x: Int, y: Int, term: (Int) -> Int): Int {
+        var sum = 0
+        for (i in x..y) {
+            sum += term(i)
+        }
+        return sum
+    }
 
     val i = 2
     val l = 3
@@ -23,11 +60,12 @@ class TestObj(private val name: String, age: Int) {
 
     //    自定义 getter和setter
     var custom: String = "default"
-        get() = field.toUpperCase()
+        get() = field.toUpperCase(Locale.ROOT)
         set(value) {
             field = "custom $custom"
 //            field=value
         }
+
 
     //    一个String可以像数组那样访问，并且被迭代：
     fun inTest() {
@@ -110,7 +148,7 @@ class TestObj(private val name: String, age: Int) {
                 "no result"
             }
         }
-        print(testResult)
+        println(testResult)
     }
 
 }

@@ -13,11 +13,10 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     }
 
     void getData() {
-        addDisposable(apiServer.getList(), new BaseObserver<BaseResponse<ArrayList<Article>>>(baseView) {
+        addDisposable(apiServer.getList(), new BaseObserver<ArrayList<Article>>(getBaseView()) {
             @Override
-            public void onSuccess(BaseResponse<ArrayList<Article>> o) {
-                ArrayList<Article> list = o.getBean();
-                baseView.onSuccess(list);
+            public void onSuccess(ArrayList<Article> o) {
+                getBaseView().onSuccess(o);
             }
 
             @Override

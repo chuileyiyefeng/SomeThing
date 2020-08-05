@@ -3,11 +3,9 @@ package com.example.something.net_work.base;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +17,8 @@ import com.example.something.R;
 import com.example.something.net_work.LoadListener;
 import com.example.something.net_work.RecyclerLoadMoreListener;
 import com.example.something.utils.StatusBarUtil;
+
+import org.weishe.baselibrary.adapter.BaseAdapter;
 
 import java.util.List;
 
@@ -50,6 +50,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompat
         presenter = createPresenter();
         initView();
         initData();
+        getLifecycle().addObserver(presenter);
     }
 
     @Override
@@ -62,9 +63,9 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompat
     protected void onDestroy() {
         super.onDestroy();
         //销毁时，解除绑定
-        if (presenter != null) {
-            presenter.detachView();
-        }
+//        if (presenter != null) {
+//            presenter.detachView();
+//        }
     }
 
     protected void initListener() {

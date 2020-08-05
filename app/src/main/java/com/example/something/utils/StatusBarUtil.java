@@ -101,16 +101,14 @@ public class StatusBarUtil {
     //    设置状态栏字体颜色 黑色或者白色
     public static void setStatusTextDark(Activity activity, boolean dark) {
         View decor = activity.getWindow().getDecorView();
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            if (dark) {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            } else {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            }
-            View content = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
-            if (content != null) {
-                content.setFitsSystemWindows(true);
-            }
+        if (dark) {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
+        View content = ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
+        if (content != null) {
+            content.setFitsSystemWindows(true);
         }
     }
 

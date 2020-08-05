@@ -3,8 +3,8 @@ package com.example.something.net_work;
 import android.content.Context;
 
 import com.example.something.R;
-import com.example.something.net_work.base.BaseAdapter;
-import com.example.something.net_work.base.BaseViewHolder;
+import org.weishe.baselibrary.adapter.BaseAdapter;
+import org.weishe.baselibrary.adapter.BaseViewHolder;
 import com.example.something.net_work.bean.Article;
 
 public class ArticleAdapter extends BaseAdapter<Article> {

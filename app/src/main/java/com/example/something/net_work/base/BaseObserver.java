@@ -12,7 +12,7 @@ import java.text.ParseException;
 import io.reactivex.observers.DisposableObserver;
 import retrofit2.HttpException;
 
-public abstract class BaseObserver<T> extends DisposableObserver<T> {
+public abstract class BaseObserver<T> extends DisposableObserver<BaseResponse<T>> {
 
     protected BaseView view;
     private boolean isShowDialog;
@@ -40,8 +40,12 @@ public abstract class BaseObserver<T> extends DisposableObserver<T> {
     }
 
     @Override
-    public void onNext(T o) {
-        onSuccess(o);
+    public void onNext(BaseResponse<T> response) {
+        if (response.getErrorCode()==0) {
+            onSuccess(response.getBean());
+        }else {
+            onError(response.getErrorMsg());
+        }
     }
 
     @Override

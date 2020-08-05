@@ -26,12 +26,12 @@ public class LogInterceptor implements Interceptor {
 //                .build()
                 ;
 
-        Log.e(TAG, "request:" + request.toString());
+        Log.e(TAG, "request:" + request.url());
         long t1 = System.nanoTime();
         Response response = chain.proceed(chain.request());
         long t2 = System.nanoTime();
-        Log.e(TAG, String.format(Locale.getDefault(), "Received response for %s in %.1fms%n%s",
-                response.request().url(), (t2 - t1) / 1e6d, response.headers()));
+//        Log.e(TAG, String.format(Locale.getDefault(), "Received response for %s in %.1fms%n%s",
+//                response.request().url(), (t2 - t1) / 1e6d, response.headers()));
         MediaType mediaType = response.body().contentType();
         String content = response.body().string();
         Log.e(TAG, "response body:" + content);
