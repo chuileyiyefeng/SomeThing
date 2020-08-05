@@ -66,7 +66,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         photoBean = (SelectPhotoBean) getIntent().getSerializableExtra("photoBean");
         setContentView(R.layout.activity_photo);
         setStatusBarColor(this, R.color.white);
-        setStatusTextDark(this, true);
+        setStatusTextDark(this,  true);
         folderWindow = new FolderPopupWindow(this);
         folderWindow.setOnDismissListener(this);
         folderWindow.setAlbumSelectListener(this);
