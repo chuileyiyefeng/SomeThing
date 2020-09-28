@@ -12,7 +12,7 @@ import java.text.ParseException;
 import io.reactivex.observers.DisposableObserver;
 import retrofit2.HttpException;
 
-public abstract class BaseObserver<T> extends DisposableObserver<T> {
+public abstract class BaseObserver<T extends BaseResponse> extends DisposableObserver<T> {
 
     protected BaseView view;
     private boolean isShowDialog;
