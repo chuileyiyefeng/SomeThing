@@ -22,8 +22,11 @@ import com.example.something.net_work.TestNetWorkActivity;
 import com.example.something.utils.StatusBarUtil;
 
 import org.jetbrains.annotations.NotNull;
+import org.weishe.baselibrary.listener.SelectResultListener;
+import org.weishe.baselibrary.utils.ImageSelectUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import butterknife.ButterKnife;
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java, R.id.tv_kotlin, R.id.tv_time_picker})
+    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java, R.id.tv_kotlin, R.id.tv_time_picker, R.id.tv_photo})
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.tv_net:
@@ -55,8 +58,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.tv_rx_java:
                 startActivity(new Intent(this, TestRxJavaActivity.class));
                 break;
+            case R.id.tv_photo:
+                ImageSelectUtils.getInstance().setMaxPhoto(1).setSelectResult(new SelectResultListener() {
+                    @Override
+                    public void selectResult(ArrayList<String> strings) {
+                        Toast.makeText(MainActivity.this, strings.get(0), Toast.LENGTH_SHORT).show();
+                    }
+                }).start(this);
+                break;
             case R.id.tv_time_picker:
-
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
