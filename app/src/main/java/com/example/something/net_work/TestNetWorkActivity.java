@@ -1,7 +1,7 @@
 package com.example.something.net_work;
 
 import com.example.something.R;
-import com.example.something.net_work.base.BaseAdapter;
+import org.weishe.baselibrary.adapter.BaseAdapter;
 import com.example.something.net_work.base.BaseMvpActivity;
 import com.example.something.net_work.bean.Article;
 

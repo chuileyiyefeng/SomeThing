@@ -1,4 +1,4 @@
-package com.example.something.net_work.base;
+package org.weishe.baselibrary.adapter;
 
 import android.util.SparseArray;
 import android.view.View;

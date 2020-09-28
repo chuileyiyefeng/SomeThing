@@ -12,15 +12,9 @@ import com.example.something.R
 
 import java.util.ArrayList
 
-class MyRecyclerAdapter(
-    private val context: Context,
-    private val arrayList: ArrayList<String>
-) : RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
+class MyRecyclerAdapter(private val context: Context, private val arrayList: ArrayList<String>) : RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.adapter_text, null)
         return ViewHolder(view, context)
     }

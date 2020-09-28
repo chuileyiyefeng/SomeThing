@@ -2,6 +2,7 @@ package com.example.something.mvp.login;
 
 import com.example.something.mvp.base.BaseModel;
 import com.example.something.mvp.model.ImageBean;
+import com.example.something.mvp.model.LoginBean;
 
 public class LoginModel extends BaseModel<LoginPresent, LoginContract.M> {
 
@@ -16,7 +17,7 @@ public class LoginModel extends BaseModel<LoginPresent, LoginContract.M> {
             public void login(String name, String password) {
                 // 这里假设有网络连接操作
                 if (name.equals("haha")&&password.equals("123")) {
-                    p.getContract().loginResult(new ImageBean());
+                    p.getContract().loginResult(new LoginBean());
                 }
             }
         };

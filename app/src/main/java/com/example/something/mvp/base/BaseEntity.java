@@ -1,6 +1,8 @@
 package com.example.something.mvp.base;
 
-public class BaseEntity {
+import org.litepal.crud.DataSupport;
+
+public class BaseEntity extends DataSupport {
     private String msg;
     private int code;
 

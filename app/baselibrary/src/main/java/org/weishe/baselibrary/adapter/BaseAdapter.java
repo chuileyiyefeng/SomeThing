@@ -1,4 +1,4 @@
-package com.example.something.net_work.base;
+package org.weishe.baselibrary.adapter;
 
 import android.content.Context;
 
@@ -6,15 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 
 /**
  * Created by Tmp on 2018/12/18.
@@ -33,18 +33,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
 
     protected abstract int bindLayout();
 
-    private int createTime;
 
-    @NotNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NotNull  ViewGroup viewGroup, int i) {
-        createTime++;
-//        Log.e("createHolder", "onCreateViewHolder: " + createTime);
+    public BaseViewHolder onCreateViewHolder( ViewGroup viewGroup, int i) {
         return new BaseViewHolder(LayoutInflater.from(context).inflate(bindLayout(), viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(@NotNull BaseViewHolder holder, final int i) {
+    public void onBindViewHolder(BaseViewHolder holder, final int i) {
         bindHolder(holder, i);
         holder.itemView.setTag(i);
         holder.itemView.setOnClickListener(this);
@@ -61,7 +57,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder
         list.add(t);
         notifyItemInserted(list.size());
     }
-
+    public void addItemFirst(T t) {
+        list.add(0,t);
+        notifyItemInserted(list.size());
+    }
     public void addItem(Collection<T> collections) {
         list.addAll(collections);
         notifyDataSetChanged();
