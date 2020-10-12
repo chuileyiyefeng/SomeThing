@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> {
                     ImageView iv = findViewById(R.id.iv_select);
                     Glide.with(MainActivity.this).load(strings.get(0)).into(iv);
-                    Log.e("selectResult", "selectResult: " + strings);
+                    Log.e("selectResult", "selectResult : " + strings);
                 }).start(this);
                 break;
             case R.id.tv_photo_system:
