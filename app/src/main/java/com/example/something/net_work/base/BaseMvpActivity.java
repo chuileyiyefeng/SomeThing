@@ -3,8 +3,11 @@ package com.example.something.net_work.base;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
@@ -154,4 +157,50 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends AppCompat
 
     private LoadListener loadListener;
 
+
+    private void setEditNumberDecimal(EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                //删除.后面超过两位的数字
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        editText.setText(s);
+                        editText.setSelection(s.length());
+                    }
+                }
+
+                //如果.在起始位置,则起始位置自动补0
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    editText.setText(s);
+                    editText.setSelection(2);
+                }
+
+                //如果起始位置为0并且第二位跟的不是".",则无法后续输入
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        editText.setText(s.subSequence(0, 1));
+                        editText.setSelection(1);
+
+                    }
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+        });
+    }
 }

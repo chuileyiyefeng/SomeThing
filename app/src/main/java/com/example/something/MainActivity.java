@@ -10,17 +10,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.something.activity.SelectImageActivity;
 import com.example.something.kotlin_test.KotlinActivity;
 import com.example.something.mvp.MvpActivity;
 import com.example.something.net_work.TestNetWorkActivity;
 import com.example.something.utils.StatusBarUtil;
 
 import org.jetbrains.annotations.NotNull;
-import org.weishe.baselibrary.PhotoActivity;
-import org.weishe.baselibrary.listener.SelectResultListener;
 import org.weishe.baselibrary.utils.ImageSelectUtils;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java, R.id.tv_photo,R.id.tv_kotlin})
+    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java, R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system, R.id.tv_input})
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.tv_net:
@@ -52,14 +49,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, TestRxJavaActivity.class));
                 break;
             case R.id.tv_photo:
-                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(new SelectResultListener() {
-                    @Override
-                    public void selectResult(ArrayList<String> strings) {
-                        ImageView iv = findViewById(R.id.iv_select);
-                        Glide.with(MainActivity.this).load(strings.get(0)).into(iv);
-                        Log.e("selectResult", "selectResult: " + strings);
-                    }
+                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> {
+                    ImageView iv = findViewById(R.id.iv_select);
+                    Glide.with(MainActivity.this).load(strings.get(0)).into(iv);
+                    Log.e("selectResult", "selectResult: " + strings);
                 }).start(this);
+                break;
+            case R.id.tv_photo_system:
+                startActivity(new Intent(this, SelectImageActivity.class));
+                break;
+            case R.id.tv_input:
+
                 break;
         }
     }

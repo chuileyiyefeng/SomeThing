@@ -22,6 +22,7 @@ public class EmptyActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PhotoActivity.class);
         intent.putExtra("photoBean", bean);
         startActivityForResult(intent, code);
+
     }
 
     @Override

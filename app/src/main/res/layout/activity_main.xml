@@ -64,16 +64,40 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:padding="15dp"
-        android:text="图片选择"
+        android:text="图片选择 自定义相册 带压缩"
+        android:textColor="@color/text_color" />
+
+    <include layout="@layout/line_view_gray_1" />
+
+    <TextView
+        android:id="@+id/tv_photo_system"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="图片选择 系统相册 带压缩"
+        android:textColor="@color/text_color" />
+
+    <include layout="@layout/line_view_gray_1" />
+
+    <TextView
+        android:id="@+id/tv_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="输入法相关"
         android:textColor="@color/text_color" />
 
     <include layout="@layout/line_view_gray_1" />
 
     <ImageView
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/iv_select"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         tools:ignore="ContentDescription" />
 </LinearLayout>
