@@ -1,6 +1,7 @@
 package org.weishe.baselibrary.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import org.weishe.baselibrary.EmptyActivity;
@@ -32,7 +33,7 @@ public class ImageSelectUtils {
         return selectUtils;
     }
 
-    public void start(Activity activity) {
+    public void start(Context activity) {
         Intent intent = new Intent(activity, EmptyActivity.class);
         intent.putExtra("photoBean", photoBean);
         activity.startActivity(intent);
