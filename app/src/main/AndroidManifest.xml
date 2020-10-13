@@ -34,6 +34,7 @@
 
         <activity android:name=".mvp.MvpActivity" />
         <activity android:name=".activity.SelectImageActivity" />
+        <activity android:name=".activity.EditSomeThingActivity" />
     </application>
 
 </manifest>

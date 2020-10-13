@@ -2,6 +2,7 @@ package com.example.something.activity
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -140,15 +141,6 @@ class SelectImageActivity : BaseActivity() {
         if (!localFile.exists()) {
             localFile.mkdir()
         }
-//        val finalImageFile = File(localFile, System.currentTimeMillis().toString() + ".jpg")
-//        if (finalImageFile.exists()) {
-//            finalImageFile.delete()
-//        }
-//        try {
-//            finalImageFile.createNewFile()
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
         var subtract: Int
         val bitmap: Bitmap = BitmapFactory.decodeFile(srcPath)
         val baos = ByteArrayOutputStream()
@@ -158,7 +150,7 @@ class SelectImageActivity : BaseActivity() {
             options,
             baos
         ) //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-        while (baos.toByteArray().size > ImageSize * 1024 * 1024) { //循环判断如果压缩后图片是否大于ImageSize kb,大于继续压缩
+        while (baos.toByteArray().size > ImageSize * 1024 * 1024) { //循环判断如果压缩后图片是否大于ImageSize 单位：M,大于继续压缩
             Log.e(
                 TAG,
                 "compressBitmap: " + baos.toByteArray().size + " size " + (ImageSize * 1024 * 1024)

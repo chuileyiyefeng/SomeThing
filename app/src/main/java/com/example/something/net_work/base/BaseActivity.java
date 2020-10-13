@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.something.R;
+import com.example.something.utils.StatusBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -20,7 +22,8 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         initView();
         initPresenter();
         ButterKnife.bind(this);
-
+        StatusBarUtil.setStatusBarColor(this, R.color.white);
+        StatusBarUtil.setStatusTextDark(this, true);
     }
 
     protected abstract int bindLayout();
