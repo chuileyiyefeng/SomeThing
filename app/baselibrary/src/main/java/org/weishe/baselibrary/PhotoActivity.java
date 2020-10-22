@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -43,14 +42,14 @@ import java.util.List;
 import java.util.Map;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-
-public class PhotoActivity extends AppCompatActivity implements View.OnClickListener, FolderPopupWindow.AlbumSelectListener, PopupWindow.OnDismissListener {
+@SuppressLint("SetTextI18n")
+public class PhotoActivity extends AppCompatActivity implements View.OnClickListener, FolderPopupWindow.AlbumSelectListener, PopupWindow.OnDismissListener, PhotoAdapter.SelectCountListener {
     MyHandler handler;
     RecyclerView rvPhoto;
     PhotoAdapter adapter;
     GridLayoutManager manager;
     int spanCount = 3;
-    TextView tvTitle, tvComplete;
+    TextView tvTitle, tvComplete,tvSelectCount;
     ImageView ivBack;
     FrameLayout flTitle;
     View viewBlank,viewBlank2;
@@ -74,6 +73,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 //        folderWindow.setAnimationStyle(R.style.folderAnimator);
         tvTitle = findViewById(R.id.tv_title);
         flTitle = findViewById(R.id.fl_title);
+        tvSelectCount = findViewById(R.id.tv_selected);
         tvComplete = findViewById(R.id.tv_complete);
         ivBack = findViewById(R.id.iv_back);
         viewBlank = findViewById(R.id.view_blank);
@@ -92,12 +92,13 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             public void run() {
                 adapter = new PhotoAdapter(PhotoActivity.this, (int) (rvPhoto.getMeasuredWidth() / (float) spanCount));
                 adapter.setMaxSelect(photoBean.getMaxPhoto());
+                adapter.setSelectCountListener(PhotoActivity.this);
                 rvPhoto.setAdapter(adapter);
                 handler = new MyHandler(PhotoActivity.this);
                 checkPermission();
             }
         });
-
+        tvSelectCount.setText("已选择("+0+"/"+photoBean.getMaxPhoto()+")");
     }
 
     // 权限
@@ -291,6 +292,13 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         adapter.clearAllItem();
         adapter.addItem(info.getPathList());
         tvTitle.setText(info.getName());
+    }
+
+    // 选择的数量
+
+    @Override
+    public void selectCount(int count) {
+        tvSelectCount.setText("已选择("+count+"/"+photoBean.getMaxPhoto()+")");
     }
 
 

@@ -19,8 +19,20 @@
             android:id="@+id/iv_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="17dp"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:paddingStart="7dp"
+            android:paddingEnd="27dp"
             android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_marginStart="-16dp"
+            android:id="@+id/tv_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已选择"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
 
         <FrameLayout
             android:layout_width="0dp"
@@ -42,8 +54,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:drawableEnd="@mipmap/downarrow"
                     android:drawablePadding="4dp"
+                    android:drawableEnd="@mipmap/downarrow"
                     android:ellipsize="end"
                     android:gravity="center"
                     android:maxLength="20"
@@ -52,11 +64,12 @@
                     android:textColor="#333333"
                     android:textSize="16sp" />
             </FrameLayout>
+
             <View
-                android:visibility="gone"
                 android:id="@+id/view_blank"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone" />
         </FrameLayout>
 
         <TextView
@@ -83,10 +96,10 @@
             android:background="@color/white" />
 
         <View
-            android:visibility="gone"
             android:id="@+id/view_blank2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </LinearLayout>

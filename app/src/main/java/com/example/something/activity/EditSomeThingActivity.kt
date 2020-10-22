@@ -1,6 +1,9 @@
 package com.example.something.activity
 
+import android.content.Context
 import android.text.InputType
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.example.something.R
 import com.example.something.net_work.base.BaseActivity
 import com.example.something.utils.NumberTextWatcher
@@ -16,13 +19,16 @@ class EditSomeThingActivity : BaseActivity() {
     }
 
     override fun initView() {
+        tv_hide_input.setOnClickListener {
+            hideInput(it)
+        }
         iv_pwd_status.setOnClickListener {
             checkInputStatus()
         }
         et_number.addTextChangedListener(NumberTextWatcher(et_number))
     }
 
-    var checkStatus = false
+    private var checkStatus = false
     private fun checkInputStatus() {
         iv_pwd_status.setImageResource(
             when (checkStatus) {
@@ -39,5 +45,12 @@ class EditSomeThingActivity : BaseActivity() {
         )
         et_pwd.setSelection(et_pwd.text.toString().length)
         checkStatus = !checkStatus
+    }
+
+    fun hideInput(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (imm.isActive) {
+            imm.hideSoftInputFromWindow(view.applicationWindowToken, 0)
+        }
     }
 }

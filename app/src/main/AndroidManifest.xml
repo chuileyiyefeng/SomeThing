@@ -35,6 +35,7 @@
         <activity android:name=".mvp.MvpActivity" />
         <activity android:name=".activity.SelectImageActivity" />
         <activity android:name=".activity.EditSomeThingActivity" />
+        <activity android:name=".activity.TimeSelectActivity" />
     </application>
 
 </manifest>

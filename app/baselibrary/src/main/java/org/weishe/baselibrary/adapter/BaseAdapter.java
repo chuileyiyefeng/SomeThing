@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Tmp on 2018/12/18.
  */
-@SuppressWarnings("ALL")
+
 public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> implements View.OnClickListener {
     protected Context context;
     protected List<T> list;

@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
     }
 
     @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,
@@ -60,5 +59,6 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
+
 
 }

@@ -67,7 +67,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="15dp"
-            android:text="图片选择 自定义相册 带压缩"
+            android:text="图片选择 自定义相册"
             android:textColor="@color/text_color" />
 
         <include layout="@layout/line_view_gray_1" />

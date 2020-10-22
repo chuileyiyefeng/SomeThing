@@ -1,7 +1,6 @@
 package org.weishe.baselibrary.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,18 +14,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.weishe.baselibrary.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PhotoAdapter extends BaseAdapter<String> {
 
     private int realWidth, realHeight;
-    private ArrayList<String> selectPath;
+    private ArrayList<String> selectPathList;
 
     public PhotoAdapter(Context context, int width) {
         super(context);
-        selectPath = new ArrayList<>();
+        selectPathList = new ArrayList<>();
         realWidth = width;
-        realHeight = realWidth;
+        realHeight = width;
     }
 
     @Override
@@ -43,20 +41,23 @@ public class PhotoAdapter extends BaseAdapter<String> {
         final String path = getItem(i);
         ImageView ivPhoto = holder.getView(R.id.iv_photo);
         final ImageView ivSelect = holder.getView(R.id.iv_select);
-        ivSelect.setVisibility(selectPath.contains(path) ? View.VISIBLE : View.GONE);
+        ivSelect.setVisibility(selectPathList.contains(path) ? View.VISIBLE : View.GONE);
         ivPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectPath.contains(path)) {
-                    selectPath.remove(path);
+                if (selectPathList.contains(path)) {
+                    selectPathList.remove(path);
                     ivSelect.setVisibility(View.GONE);
                 } else {
-                    if (selectPath.size() >= maxPhoto) {
+                    if (selectPathList.size() >= maxPhoto) {
                         Toast.makeText(context, "最多选择" + maxPhoto + "张图片!", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    selectPath.add(path);
+                    selectPathList.add(path);
                     ivSelect.setVisibility(View.VISIBLE);
+                }
+                if (selectCountListener!=null) {
+                    selectCountListener.selectCount(selectPathList.size());
                 }
             }
         });
@@ -70,12 +71,22 @@ public class PhotoAdapter extends BaseAdapter<String> {
     }
 
     public ArrayList<String> getData() {
-        return selectPath;
+        return selectPathList;
     }
 
     private int maxPhoto;
 
     public void setMaxSelect(int maxPhoto) {
         this.maxPhoto = maxPhoto;
+    }
+
+    private SelectCountListener selectCountListener;
+
+    public void setSelectCountListener(SelectCountListener selectCountListener) {
+        this.selectCountListener = selectCountListener;
+    }
+
+    public interface SelectCountListener {
+        void selectCount(int count);
     }
 }
