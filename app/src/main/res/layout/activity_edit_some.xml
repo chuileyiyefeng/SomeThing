@@ -45,6 +45,7 @@
                 android:padding="15dp"
                 android:src="@mipmap/icon_eye_close" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -72,5 +73,16 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_marginTop="50dp"
+            android:padding="10dp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tv_hide_input"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/blue_thumb"
+            android:text="隐藏软件盘"
+            android:textColor="@color/white" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

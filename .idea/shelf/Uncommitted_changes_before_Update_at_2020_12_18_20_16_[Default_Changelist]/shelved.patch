@@ -1,0 +1,115 @@
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n            <option value=\"$PROJECT_DIR$/app/baselibrary\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n\t\t<option name=\"delegatedBuild\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision d0da2608008a4e45358bca5545613fd073190c5c)
++++ .idea/gradle.xml	(date 1602851491640)
+@@ -4,6 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
++        <option name="delegatedBuild" value="false" />
+         <option name="testRunner" value="PLATFORM" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+@@ -15,7 +16,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
+-		<option name="delegatedBuild" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: app/src/main/java/com/example/something/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something;\r\n\r\nimport android.content.Intent;\r\nimport android.view.View;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.something.activity.EditSomeThingActivity;\r\nimport com.example.something.activity.SelectImageActivity;\r\nimport com.example.something.activity.TimeSelectActivity;\r\nimport com.example.something.kotlin_test.KotlinActivity;\r\nimport com.example.something.mvp.MvpActivity;\r\nimport com.example.something.net_work.TestNetWorkActivity;\r\nimport com.example.something.net_work.base.BaseActivity;\r\n\r\nimport org.jetbrains.annotations.NotNull;\r\nimport org.weishe.baselibrary.utils.ImageSelectUtils;\r\n\r\nimport butterknife.OnClick;\r\n\r\npublic class MainActivity extends BaseActivity {\r\n\r\n    @Override\r\n    protected int bindLayout() {\r\n        return R.layout.activity_main;\r\n    }\r\n\r\n    @Override\r\n    protected void initView() {\r\n\r\n    }\r\n\r\n    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,\r\n            R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,\r\n            R.id.tv_input, R.id.tv_time})\r\n    public void onClick(@NotNull View v) {\r\n        switch (v.getId()) {\r\n            case R.id.tv_net:\r\n                startActivity(new Intent(this, TestNetWorkActivity.class));\r\n                break;\r\n            case R.id.tv_kotlin:\r\n                startActivity(new Intent(this, KotlinActivity.class));\r\n                break;\r\n            case R.id.tv_mvp:\r\n                startActivity(new Intent(this, MvpActivity.class));\r\n                break;\r\n            case R.id.tv_rx_java:\r\n                startActivity(new Intent(this, TestRxJavaActivity.class));\r\n                break;\r\n            case R.id.tv_photo:\r\n                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> Toast.makeText(this, \"selectResult : \" + strings.get(0), Toast.LENGTH_SHORT).show()).start(this);\r\n                break;\r\n            case R.id.tv_photo_system:\r\n                startActivity(new Intent(this, SelectImageActivity.class));\r\n                break;\r\n            case R.id.tv_input:\r\n                startActivity(new Intent(this, EditSomeThingActivity.class));\r\n                break;\r\n            case R.id.tv_time:\r\n                startActivity(new Intent(this, TimeSelectActivity.class));\r\n                break;\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/MainActivity.java	(revision d0da2608008a4e45358bca5545613fd073190c5c)
++++ app/src/main/java/com/example/something/MainActivity.java	(date 1603029467497)
+@@ -1,5 +1,6 @@
+ package com.example.something;
+ 
++import android.annotation.SuppressLint;
+ import android.content.Intent;
+ import android.view.View;
+ import android.widget.Toast;
+@@ -29,6 +30,7 @@
+ 
+     }
+ 
++    @SuppressLint("NonConstantResourceId")
+     @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,
+             R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,
+             R.id.tv_input, R.id.tv_time})
+Index: app/baselibrary/src/main/java/org/weishe/baselibrary/utils/ImageSelectUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.weishe.baselibrary.utils;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\n\r\nimport org.weishe.baselibrary.EmptyActivity;\r\nimport org.weishe.baselibrary.bean.SelectPhotoBean;\r\nimport org.weishe.baselibrary.listener.SelectResultListener;\r\nimport org.weishe.baselibrary.listener.SelectResultListenerParent;\r\n\r\npublic class ImageSelectUtils {\r\n    private static ImageSelectUtils selectUtils;\r\n    private static SelectPhotoBean photoBean;\r\n\r\n    private ImageSelectUtils() {\r\n    }\r\n\r\n    public static ImageSelectUtils getInstance() {\r\n        if (selectUtils == null) {\r\n            synchronized (ImageSelectUtils.class) {\r\n                if (selectUtils == null) {\r\n                    photoBean = new SelectPhotoBean();\r\n                    selectUtils = new ImageSelectUtils();\r\n                }\r\n            }\r\n        }\r\n        return selectUtils;\r\n    }\r\n\r\n    public ImageSelectUtils setMaxPhoto(int maxPhoto) {\r\n        photoBean.setMaxPhoto(maxPhoto);\r\n        return selectUtils;\r\n    }\r\n\r\n    public void start(Context activity) {\r\n        Intent intent = new Intent(activity, EmptyActivity.class);\r\n        intent.putExtra(\"photoBean\", photoBean);\r\n        activity.startActivity(intent);\r\n    }\r\n\r\n\r\n\r\n\r\n    public ImageSelectUtils setSelectResult(SelectResultListener listener) {\r\n        SelectResultListenerParent.getInstance().setListener(listener);\r\n        return selectUtils;\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/baselibrary/src/main/java/org/weishe/baselibrary/utils/ImageSelectUtils.java	(revision d0da2608008a4e45358bca5545613fd073190c5c)
++++ app/baselibrary/src/main/java/org/weishe/baselibrary/utils/ImageSelectUtils.java	(date 1602515672033)
+@@ -1,6 +1,5 @@
+ package org.weishe.baselibrary.utils;
+ 
+-import android.app.Activity;
+ import android.content.Context;
+ import android.content.Intent;
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CMakeSettings\">\r\n    <configurations>\r\n      <configuration PROFILE_NAME=\"Debug\" CONFIG_NAME=\"Debug\" />\r\n    </configurations>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision d0da2608008a4e45358bca5545613fd073190c5c)
++++ .idea/misc.xml	(date 1602851491625)
+@@ -5,7 +5,7 @@
+       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+     </configurations>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><component name=\"ProjectCodeStyleConfiguration\">\r\n  <code_scheme name=\"Project\" version=\"173\">\r\n    <JetCodeStyleSettings>\r\n      <option name=\"PACKAGES_TO_USE_STAR_IMPORTS\">\r\n        <value>\r\n          <package name=\"java.util\" alias=\"false\" withSubpackages=\"false\" />\r\n          <package name=\"kotlinx.android.synthetic\" alias=\"false\" withSubpackages=\"true\" />\r\n          <package name=\"io.ktor\" alias=\"false\" withSubpackages=\"true\" />\r\n        </value>\r\n      </option>\r\n      <option name=\"PACKAGES_IMPORT_LAYOUT\">\r\n        <value>\r\n          <package name=\"\" alias=\"false\" withSubpackages=\"true\" />\r\n          <package name=\"java\" alias=\"false\" withSubpackages=\"true\" />\r\n          <package name=\"javax\" alias=\"false\" withSubpackages=\"true\" />\r\n          <package name=\"kotlin\" alias=\"false\" withSubpackages=\"true\" />\r\n          <package name=\"\" alias=\"true\" withSubpackages=\"true\" />\r\n        </value>\r\n      </option>\r\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\r\n    </JetCodeStyleSettings>\r\n    <codeStyleSettings language=\"XML\">\r\n      <indentOptions>\r\n        <option name=\"CONTINUATION_INDENT_SIZE\" value=\"4\" />\r\n      </indentOptions>\r\n      <arrangement>\r\n        <rules>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:android</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>xmlns:.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:id</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*:name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>name</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>style</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>^$</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>ANDROID_ATTRIBUTE_ORDER</order>\r\n            </rule>\r\n          </section>\r\n          <section>\r\n            <rule>\r\n              <match>\r\n                <AND>\r\n                  <NAME>.*</NAME>\r\n                  <XML_ATTRIBUTE />\r\n                  <XML_NAMESPACE>.*</XML_NAMESPACE>\r\n                </AND>\r\n              </match>\r\n              <order>BY_NAME</order>\r\n            </rule>\r\n          </section>\r\n        </rules>\r\n      </arrangement>\r\n    </codeStyleSettings>\r\n    <codeStyleSettings language=\"kotlin\">\r\n      <option name=\"CODE_STYLE_DEFAULTS\" value=\"KOTLIN_OFFICIAL\" />\r\n    </codeStyleSettings>\r\n  </code_scheme>\r\n</component>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/codeStyles/Project.xml	(revision d0da2608008a4e45358bca5545613fd073190c5c)
++++ .idea/codeStyles/Project.xml	(date 1602515672094)
+@@ -3,18 +3,9 @@
+     <JetCodeStyleSettings>
+       <option name="PACKAGES_TO_USE_STAR_IMPORTS">
+         <value>
+-          <package name="java.util" alias="false" withSubpackages="false" />
+-          <package name="kotlinx.android.synthetic" alias="false" withSubpackages="true" />
+-          <package name="io.ktor" alias="false" withSubpackages="true" />
+-        </value>
+-      </option>
+-      <option name="PACKAGES_IMPORT_LAYOUT">
+-        <value>
+-          <package name="" alias="false" withSubpackages="true" />
+-          <package name="java" alias="false" withSubpackages="true" />
+-          <package name="javax" alias="false" withSubpackages="true" />
+-          <package name="kotlin" alias="false" withSubpackages="true" />
+-          <package name="" alias="true" withSubpackages="true" />
++          <package name="java.util" withSubpackages="false" static="false" />
++          <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
++          <package name="io.ktor" withSubpackages="true" static="false" />
+         </value>
+       </option>
+       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />

@@ -36,6 +36,8 @@
         <activity android:name=".activity.SelectImageActivity" />
         <activity android:name=".activity.EditSomeThingActivity" />
         <activity android:name=".activity.TimeSelectActivity" />
+        <activity android:name=".activity.ScreenChangeActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
