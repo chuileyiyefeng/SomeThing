@@ -1,10 +1,12 @@
 package com.example.something;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.something.activity.EditSomeThingActivity;
+import com.example.something.activity.ScreenChangeActivity;
 import com.example.something.activity.SelectImageActivity;
 import com.example.something.activity.TimeSelectActivity;
 import com.example.something.kotlin_test.KotlinActivity;
@@ -28,9 +30,10 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,
             R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,
-            R.id.tv_input, R.id.tv_time})
+            R.id.tv_input, R.id.tv_time,R.id.tv_screen_change})
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.tv_net:
@@ -56,6 +59,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_time:
                 startActivity(new Intent(this, TimeSelectActivity.class));
+                break;
+            case R.id.tv_screen_change:
+                startActivity(new Intent(this, ScreenChangeActivity.class));
                 break;
         }
     }
