@@ -1,0 +1,945 @@
+Index: app/src/main/res/layout/activity_edit_some.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.core.widget.NestedScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    tools:ignore=\"UselessParent,HardcodedText,LabelFor,Autofill,TextFields,ContentDescription\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:orientation=\"vertical\"\r\n        android:paddingStart=\"16dp\"\r\n        android:paddingEnd=\"16dp\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"50dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:orientation=\"horizontal\">\r\n\r\n            <TextView\r\n                android:layout_width=\"120dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_vertical\"\r\n                android:text=\"密码明文切换\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_pwd\"\r\n                android:layout_width=\"0dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_vertical\"\r\n                android:layout_marginStart=\"8dp\"\r\n                android:layout_weight=\"1\"\r\n                android:background=\"@color/white_smoke\"\r\n                android:inputType=\"textPassword\"\r\n                android:padding=\"6dp\"\r\n                android:textColor=\"@color/text_normal\"\r\n                android:textSize=\"14sp\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/iv_pwd_status\"\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:padding=\"15dp\"\r\n                android:src=\"@mipmap/icon_eye_close\" />\r\n        </LinearLayout>\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"50dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:orientation=\"horizontal\">\r\n\r\n            <TextView\r\n                android:layout_width=\"120dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_vertical\"\r\n                android:text=\"格式数字两位小数\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/et_number\"\r\n                android:layout_width=\"0dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_vertical\"\r\n                android:layout_marginStart=\"8dp\"\r\n                android:layout_weight=\"1\"\r\n                android:background=\"@color/white_smoke\"\r\n                android:inputType=\"numberDecimal\"\r\n                android:padding=\"6dp\"\r\n                android:textColor=\"@color/text_normal\"\r\n                android:textSize=\"14sp\" />\r\n\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n</androidx.core.widget.NestedScrollView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_edit_some.xml	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/res/layout/activity_edit_some.xml	(date 1602906207998)
+@@ -11,8 +11,19 @@
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:paddingStart="16dp"
++        android:paddingTop="10dp"
+         android:paddingEnd="16dp">
+ 
++        <TextView
++            android:id="@+id/tv_hide_input"
++            android:layout_width="120dp"
++            android:layout_height="50dp"
++            android:layout_gravity="center_horizontal"
++            android:background="@color/white"
++            android:gravity="center"
++            android:text="关闭输入法"
++            android:textColor="@color/text_color" />
++
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+@@ -45,6 +56,7 @@
+                 android:padding="15dp"
+                 android:src="@mipmap/icon_eye_close" />
+         </LinearLayout>
++
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="50dp"
+Index: app/src/main/java/com/example/something/activity/EditSomeThingActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.activity\r\n\r\nimport android.content.Context\r\nimport android.text.InputType\r\nimport android.view.View\r\nimport android.view.inputmethod.InputMethodManager\r\nimport com.example.something.R\r\nimport com.example.something.net_work.base.BaseActivity\r\nimport com.example.something.utils.NumberTextWatcher\r\nimport kotlinx.android.synthetic.main.activity_edit_some.*\r\n\r\n/**\r\n * create by pan yi on 2020/10/13\r\n * desc : 输入法操作相关\r\n */\r\nclass EditSomeThingActivity : BaseActivity() {\r\n    override fun bindLayout(): Int {\r\n        return R.layout.activity_edit_some\r\n    }\r\n\r\n    override fun initView() {\r\n        tv_hide_input.setOnClickListener {\r\n            hideInput(it)\r\n        }\r\n        iv_pwd_status.setOnClickListener {\r\n            checkInputStatus()\r\n        }\r\n        et_number.addTextChangedListener(NumberTextWatcher(et_number))\r\n    }\r\n\r\n    private var checkStatus = false\r\n    private fun checkInputStatus() {\r\n        iv_pwd_status.setImageResource(\r\n            when (checkStatus) {\r\n                true -> {\r\n                    et_pwd.inputType =\r\n                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD\r\n                    R.mipmap.icon_eye_close\r\n                }\r\n                false -> {\r\n                    et_pwd.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD\r\n                    R.mipmap.icon_eye_open\r\n                }\r\n            }\r\n        )\r\n        et_pwd.setSelection(et_pwd.text.toString().length)\r\n        checkStatus = !checkStatus\r\n    }\r\n\r\n    fun hideInput(view: View) {\r\n        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager\r\n        if (imm.isActive) {\r\n            imm.hideSoftInputFromWindow(view.applicationWindowToken, 0)\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/activity/EditSomeThingActivity.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/activity/EditSomeThingActivity.kt	(date 1603788506992)
+@@ -5,7 +5,7 @@
+ import android.view.View
+ import android.view.inputmethod.InputMethodManager
+ import com.example.something.R
+-import com.example.something.net_work.base.BaseActivity
++import com.example.something.net_work.base.BaseNetActivity
+ import com.example.something.utils.NumberTextWatcher
+ import kotlinx.android.synthetic.main.activity_edit_some.*
+ 
+@@ -13,7 +13,7 @@
+  * create by pan yi on 2020/10/13
+  * desc : 输入法操作相关
+  */
+-class EditSomeThingActivity : BaseActivity() {
++class EditSomeThingActivity : BaseNetActivity() {
+     override fun bindLayout(): Int {
+         return R.layout.activity_edit_some
+     }
+Index: app/src/main/java/com/example/something/activity/SelectImageActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.activity\r\n\r\nimport android.Manifest\r\nimport android.app.Activity\r\nimport android.content.ContentResolver\r\nimport android.content.ContentUris\r\nimport android.content.Intent\r\nimport android.content.pm.PackageManager\r\nimport android.database.Cursor\r\nimport android.graphics.Bitmap\r\nimport android.graphics.BitmapFactory\r\nimport android.net.Uri\r\nimport android.provider.DocumentsContract\r\nimport android.provider.MediaStore\r\nimport android.util.Log\r\nimport android.widget.Toast\r\nimport androidx.core.content.ContextCompat\r\nimport com.bumptech.glide.Glide\r\nimport com.example.something.R\r\nimport com.example.something.net_work.base.BaseActivity\r\nimport kotlinx.android.synthetic.main.activity_select_image.*\r\nimport java.io.ByteArrayOutputStream\r\nimport java.io.File\r\nimport java.io.FileOutputStream\r\n\r\n\r\n/**\r\n *  create by pan yi on 2020/10/12\r\n *  desc : 本地相册选择图片\r\n */\r\nclass SelectImageActivity : BaseActivity() {\r\n    override fun bindLayout(): Int {\r\n        return R.layout.activity_select_image\r\n    }\r\n\r\n    private val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)\r\n    private val codePermission = 101\r\n    private val codeData = 100\r\n    override fun initView() {\r\n        selectPic()\r\n        tv_re_select.setOnClickListener {\r\n            selectPic()\r\n        }\r\n    }\r\n\r\n    private fun selectPic() {\r\n        if (ContextCompat.checkSelfPermission(\r\n                this,\r\n                Manifest.permission.WRITE_EXTERNAL_STORAGE\r\n            ) != PackageManager.PERMISSION_GRANTED\r\n        ) {\r\n            requestPermissions(permissions, codePermission)\r\n        } else {\r\n            openImageChooserActivity()\r\n        }\r\n    }\r\n\r\n    override fun onRequestPermissionsResult(\r\n        requestCode: Int,\r\n        permissions: Array<String?>,\r\n        grantResults: IntArray\r\n    ) {\r\n        if (requestCode == codePermission) {\r\n            for (result in grantResults) {\r\n                if (result != PackageManager.PERMISSION_GRANTED) {\r\n                    Toast.makeText(this, \"没有权限\", Toast.LENGTH_SHORT)\r\n                        .show()\r\n                    return\r\n                }\r\n            }\r\n            openImageChooserActivity()\r\n        }\r\n    }\r\n\r\n    private fun openImageChooserActivity() {\r\n        val i = Intent(Intent.ACTION_GET_CONTENT)\r\n        i.addCategory(Intent.CATEGORY_OPENABLE)\r\n        i.type = \"image/*\"\r\n        startActivityForResult(Intent.createChooser(i, \"Image Chooser\"), codeData)\r\n    }\r\n\r\n    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {\r\n        super.onActivityResult(requestCode, resultCode, data)\r\n        if (requestCode == codeData && resultCode == Activity.RESULT_OK) {\r\n            data?.let {\r\n                val uri: Uri? = data.data\r\n                uri?.let {\r\n                    var path: String? = \"\"\r\n                    if (DocumentsContract.isDocumentUri(this, uri)) {\r\n\r\n                        val docId = DocumentsContract.getDocumentId(uri)\r\n                        if (\"com.android.providers.media.documents\" == uri.authority) {\r\n                            val id = docId.split(\":\".toRegex()).toTypedArray()[1]\r\n                            val selection = MediaStore.Images.Media._ID + \"=\" + id\r\n                            path = getImagePath(\r\n                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,\r\n                                selection\r\n                            )\r\n                        } else if (\"com.android.providers.downloads.documents\" == uri.authority) {\r\n                            val contentUri = ContentUris.withAppendedId(\r\n                                Uri.parse(\"content://downloads/public_downloads\"),\r\n                                java.lang.Long.valueOf(docId)\r\n                            )\r\n                            path = getImagePath(contentUri, null)\r\n                        }\r\n                    } else if (\"content\".equals(uri.scheme, ignoreCase = true)) {\r\n                        path = getImagePath(uri, null)\r\n                    } else if (\"file\".equals(uri.scheme, ignoreCase = true)) {\r\n                        path = uri.path\r\n                    }\r\n                    path?.let {  //\r\n//                        Glide.with(this).load(it).into(iv)\r\n                        compressBitmap(it)\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n    //content类型的uri获取图片路径的方法\r\n    private fun getImagePath(uri: Uri, selection: String?): String? {\r\n        var path: String? = null\r\n\r\n        val cursor: Cursor? = contentResolver.query(uri, null, selection, null, null)\r\n        if (cursor != null) {\r\n            if (cursor.moveToFirst()) {\r\n                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))\r\n            }\r\n            cursor.close()\r\n        }\r\n        return path\r\n    }\r\n\r\n    private fun compressBitmap(\r\n        srcPath: String,\r\n        ImageSize: Int = 1,\r\n        savePath: String = \"Cache\"\r\n    ) {\r\n        val filePath: String = getExternalFilesDir(savePath)?.absolutePath ?: return\r\n        val localFile = File(filePath)\r\n        if (!localFile.exists()) {\r\n            localFile.mkdir()\r\n        }\r\n        var subtract: Int\r\n        val bitmap: Bitmap = BitmapFactory.decodeFile(srcPath)\r\n        val baos = ByteArrayOutputStream()\r\n        var options = 100\r\n        bitmap.compress(\r\n            Bitmap.CompressFormat.JPEG,\r\n            options,\r\n            baos\r\n        ) //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中\r\n        while (baos.toByteArray().size > ImageSize * 1024 * 1024) { //循环判断如果压缩后图片是否大于ImageSize 单位：M,大于继续压缩\r\n            Log.e(\r\n                TAG,\r\n                \"compressBitmap: \" + baos.toByteArray().size + \" size \" + (ImageSize * 1024 * 1024)\r\n            )\r\n            subtract = getSubtractSize(baos.toByteArray().size / 1024)\r\n            baos.reset()\r\n            options -= subtract //每次减少质量\r\n            if (options < 0) {\r\n                options = 1\r\n            }\r\n            if (options > 100) {\r\n                options = 99\r\n            }\r\n            bitmap.compress(\r\n                Bitmap.CompressFormat.JPEG,\r\n                options,\r\n                baos\r\n            ) //这里压缩options%，把压缩后的数据存放到baos中\r\n        }\r\n        try {\r\n            val realPath = filePath + \"/\" + System.currentTimeMillis().toString() + \".jpg\"\r\n            Log.e(TAG, \"compressBitmap: $realPath\")\r\n            val fos = FileOutputStream(File(realPath)) //将压缩后的图片保存的本地上指定路径中\r\n            fos.write(baos.toByteArray())\r\n            fos.flush()\r\n            fos.close()\r\n\r\n            Glide.with(this).load(realPath).into(iv)\r\n        } catch (e: Exception) {\r\n            e.printStackTrace()\r\n        }\r\n        bitmap.recycle()\r\n    }\r\n\r\n    private fun getSubtractSize(imageKb: Int): Int {\r\n        return when {\r\n            imageKb > 1000 -> {\r\n                10\r\n            }\r\n            imageKb > 750 -> {\r\n                8\r\n            }\r\n            imageKb > 500 -> {\r\n                6\r\n            }\r\n            else -> {\r\n                4\r\n            }\r\n        }\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/activity/SelectImageActivity.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/activity/SelectImageActivity.kt	(date 1604300817330)
+@@ -2,7 +2,6 @@
+ 
+ import android.Manifest
+ import android.app.Activity
+-import android.content.ContentResolver
+ import android.content.ContentUris
+ import android.content.Intent
+ import android.content.pm.PackageManager
+@@ -17,7 +16,7 @@
+ import androidx.core.content.ContextCompat
+ import com.bumptech.glide.Glide
+ import com.example.something.R
+-import com.example.something.net_work.base.BaseActivity
++import com.example.something.net_work.base.BaseNetActivity
+ import kotlinx.android.synthetic.main.activity_select_image.*
+ import java.io.ByteArrayOutputStream
+ import java.io.File
+@@ -28,7 +27,7 @@
+  *  create by pan yi on 2020/10/12
+  *  desc : 本地相册选择图片
+  */
+-class SelectImageActivity : BaseActivity() {
++class SelectImageActivity : BaseNetActivity() {
+     override fun bindLayout(): Int {
+         return R.layout.activity_select_image
+     }
+Index: app/src/main/java/com/example/something/activity/TimeSelectActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.activity\r\n\r\nimport android.util.Log\r\nimport android.view.View\r\nimport androidx.fragment.app.DialogFragment\r\nimport com.example.something.R\r\nimport com.example.something.net_work.base.BaseActivity\r\nimport kotlinx.android.synthetic.main.activity_time_select.*\r\nimport org.weishe.baselibrary.dialog.SelectTimeDialog\r\n\r\n/**\r\n * create by pan yi on 2020/10/13\r\n * desc : 时间选择器\r\n */\r\nclass TimeSelectActivity : BaseActivity(), SelectTimeDialog.DismissListener,\r\n    SelectTimeDialog.ConfirmListener {\r\n    private val selectTimeDialog by lazy {\r\n        SelectTimeDialog().apply {\r\n            setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialogStyle)\r\n        }\r\n    }\r\n\r\n    override fun bindLayout(): Int {\r\n        return R.layout.activity_time_select\r\n    }\r\n\r\n    override fun initView() {\r\n        selectTimeDialog.confirmListener = this\r\n        selectTimeDialog.dismissListener = this\r\n        tv_selected.setOnClickListener {\r\n            selectTimeDialog.show(supportFragmentManager, \"TAG\")\r\n        }\r\n        selectTimeDialog.change(\r\n            {\r\n                Log.e(TAG, \"initView: \")\r\n            }, onComplete = {\r\n                Log.e(TAG, \"onComplete: $it\")\r\n            }\r\n        )\r\n        selectTimeDialog.addConfirmListener(object :SelectTimeDialog.ConfirmListener{\r\n            override fun confirmTime(time: String) {\r\n\r\n            }\r\n\r\n        })\r\n    }\r\n\r\n    override fun timeDialogDismiss() {\r\n\r\n    }\r\n\r\n    override fun confirmTime(time: String) {\r\n        tv_content.text = time\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/activity/TimeSelectActivity.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/activity/TimeSelectActivity.kt	(date 1603788507028)
+@@ -1,10 +1,9 @@
+ package com.example.something.activity
+ 
+ import android.util.Log
+-import android.view.View
+ import androidx.fragment.app.DialogFragment
+ import com.example.something.R
+-import com.example.something.net_work.base.BaseActivity
++import com.example.something.net_work.base.BaseNetActivity
+ import kotlinx.android.synthetic.main.activity_time_select.*
+ import org.weishe.baselibrary.dialog.SelectTimeDialog
+ 
+@@ -12,7 +11,7 @@
+  * create by pan yi on 2020/10/13
+  * desc : 时间选择器
+  */
+-class TimeSelectActivity : BaseActivity(), SelectTimeDialog.DismissListener,
++class TimeSelectActivity : BaseNetActivity(), SelectTimeDialog.DismissListener,
+     SelectTimeDialog.ConfirmListener {
+     private val selectTimeDialog by lazy {
+         SelectTimeDialog().apply {
+Index: app/src/main/java/com/example/something/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something;\r\n\r\nimport android.content.Intent;\r\nimport android.view.View;\r\nimport android.widget.Toast;\r\n\r\nimport com.example.something.activity.EditSomeThingActivity;\r\nimport com.example.something.activity.SelectImageActivity;\r\nimport com.example.something.activity.TimeSelectActivity;\r\nimport com.example.something.kotlin_test.KotlinActivity;\r\nimport com.example.something.mvp.MvpActivity;\r\nimport com.example.something.net_work.TestNetWorkActivity;\r\nimport com.example.something.net_work.base.BaseActivity;\r\n\r\nimport org.jetbrains.annotations.NotNull;\r\nimport org.weishe.baselibrary.utils.ImageSelectUtils;\r\n\r\nimport butterknife.OnClick;\r\n\r\npublic class MainActivity extends BaseActivity {\r\n\r\n    @Override\r\n    protected int bindLayout() {\r\n        return R.layout.activity_main;\r\n    }\r\n\r\n    @Override\r\n    protected void initView() {\r\n    }\r\n\r\n    @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,\r\n            R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,\r\n            R.id.tv_input, R.id.tv_time})\r\n    public void onClick(@NotNull View v) {\r\n        switch (v.getId()) {\r\n            case R.id.tv_net:\r\n                startActivity(new Intent(this, TestNetWorkActivity.class));\r\n                break;\r\n            case R.id.tv_kotlin:\r\n                startActivity(new Intent(this, KotlinActivity.class));\r\n                break;\r\n            case R.id.tv_mvp:\r\n                startActivity(new Intent(this, MvpActivity.class));\r\n                break;\r\n            case R.id.tv_rx_java:\r\n                startActivity(new Intent(this, TestRxJavaActivity.class));\r\n                break;\r\n            case R.id.tv_photo:\r\n                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> Toast.makeText(this, \"selectResult : \" + strings.get(0), Toast.LENGTH_SHORT).show()).start(this);\r\n                break;\r\n            case R.id.tv_photo_system:\r\n                startActivity(new Intent(this, SelectImageActivity.class));\r\n                break;\r\n            case R.id.tv_input:\r\n                startActivity(new Intent(this, EditSomeThingActivity.class));\r\n                break;\r\n            case R.id.tv_time:\r\n                startActivity(new Intent(this, TimeSelectActivity.class));\r\n                break;\r\n        }\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/MainActivity.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/MainActivity.java	(date 1605837729761)
+@@ -1,7 +1,10 @@
+ package com.example.something;
+ 
++import android.annotation.SuppressLint;
+ import android.content.Intent;
++import android.util.Log;
+ import android.view.View;
++import android.widget.TextView;
+ import android.widget.Toast;
+ 
+ import com.example.something.activity.EditSomeThingActivity;
+@@ -10,14 +13,14 @@
+ import com.example.something.kotlin_test.KotlinActivity;
+ import com.example.something.mvp.MvpActivity;
+ import com.example.something.net_work.TestNetWorkActivity;
+-import com.example.something.net_work.base.BaseActivity;
++import com.example.something.net_work.base.BaseNetActivity;
+ 
+ import org.jetbrains.annotations.NotNull;
+ import org.weishe.baselibrary.utils.ImageSelectUtils;
+ 
+ import butterknife.OnClick;
+ 
+-public class MainActivity extends BaseActivity {
++public class MainActivity extends BaseNetActivity {
+ 
+     @Override
+     protected int bindLayout() {
+@@ -26,8 +29,10 @@
+ 
+     @Override
+     protected void initView() {
++
+     }
+ 
++    @SuppressLint("NonConstantResourceId")
+     @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,
+             R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,
+             R.id.tv_input, R.id.tv_time})
+Index: app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.java
+===================================================================
+--- app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
+@@ -1,42 +0,0 @@
+-package org.weishe.baselibrary;
+-
+-import android.content.Intent;
+-import android.os.Bundle;
+-
+-import androidx.annotation.Nullable;
+-import androidx.appcompat.app.AppCompatActivity;
+-
+-import org.weishe.baselibrary.bean.SelectPhotoBean;
+-import org.weishe.baselibrary.listener.SelectResultListenerParent;
+-
+-import java.util.ArrayList;
+-
+-public class EmptyActivity extends AppCompatActivity {
+-    int code = 100;
+-    SelectPhotoBean bean;
+-
+-    @Override
+-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+-        super.onCreate(savedInstanceState);
+-        bean = (SelectPhotoBean) getIntent().getSerializableExtra("photoBean");
+-        Intent intent = new Intent(this, PhotoActivity.class);
+-        intent.putExtra("photoBean", bean);
+-        startActivityForResult(intent, code);
+-
+-    }
+-
+-    @Override
+-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+-        super.onActivityResult(requestCode, resultCode, data);
+-        if (resultCode == RESULT_OK && requestCode == code) {
+-            if (data != null) {
+-                ArrayList<String> pathList = data.getStringArrayListExtra("data");
+-                if (pathList != null && pathList.size() > 0) {
+-                    SelectResultListenerParent.getInstance().getListener().selectResult(pathList);
+-                }
+-            }
+-            finish();
+-        }
+-    }
+-
+-}
+Index: app/src/main/java/com/example/something/view_model/TestViewModel.java
+===================================================================
+--- app/src/main/java/com/example/something/view_model/TestViewModel.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/view_model/TestViewModel.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
+@@ -1,65 +0,0 @@
+-package com.example.something.view_model;
+-
+-import android.os.Handler;
+-import android.os.HandlerThread;
+-import android.os.Message;
+-
+-import androidx.annotation.NonNull;
+-import androidx.lifecycle.ViewModel;
+-
+-
+-public class TestViewModel extends ViewModel {
+-    private int time;
+-
+-    @Override
+-    protected void onCleared() {
+-        super.onCleared();
+-    }
+-
+-    private Handler mainHandler, workHandler;
+-    private HandlerThread handlerThread;
+-
+-    public void start() {
+-        mainHandler = new Handler();
+-        handlerThread = new HandlerThread("TAG");
+-        handlerThread.start();
+-        workHandler = new Handler(handlerThread.getLooper()) {
+-            @Override
+-            public void handleMessage(@NonNull Message msg) {
+-                super.handleMessage(msg);
+-                try {
+-                    Thread.sleep(1000);
+-                } catch (InterruptedException e) {
+-                    e.printStackTrace();
+-                }
+-                time++;
+-                mainHandler.post(new Runnable() {
+-                    @Override
+-                    public void run() {
+-                        if (listener != null) {
+-                            listener.change(time + "s");
+-                        }
+-                        if (time < 100) {
+-                            go();
+-                        }
+-                    }
+-                });
+-            }
+-        };
+-        go();
+-    }
+-
+-    private void go() {
+-        workHandler.sendEmptyMessage(0);
+-    }
+-
+-    private ChangeListener listener;
+-
+-    public void setListener(ChangeListener listener) {
+-        this.listener = listener;
+-    }
+-
+-    public interface ChangeListener {
+-        void change(String str);
+-    }
+-}
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    package=\"com.example.something\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\r\n    <uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />\r\n\r\n    <application\r\n        android:name=\"org.litepal.LitePalApplication\"\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:networkSecurityConfig=\"@xml/network_security_config\"\r\n        android:requestLegacyExternalStorage=\"true\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme.NoActionBar\"\r\n        android:usesCleartextTraffic=\"true\"\r\n        tools:ignore=\"AllowBackup,GoogleAppIndexingWarning\">\r\n        <activity android:name=\".MainActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n        <activity android:name=\".net_work.TestNetWorkActivity\" />\r\n        <activity android:name=\".TestRxJavaActivity\" />\r\n        <activity android:name=\".kotlin_test.KotlinActivity\" />\r\n\r\n        <service android:name=\".life_observer.MyLifeService\" />\r\n\r\n        <activity android:name=\".mvp.MvpActivity\" />\r\n        <activity android:name=\".activity.SelectImageActivity\" />\r\n        <activity android:name=\".activity.EditSomeThingActivity\" />\r\n        <activity android:name=\".activity.TimeSelectActivity\" />\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/AndroidManifest.xml	(date 1604297720273)
+@@ -8,7 +8,7 @@
+     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ 
+     <application
+-        android:name="org.litepal.LitePalApplication"
++        android:name=".MyApplication"
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+Index: app/src/main/java/com/example/something/TestRxJavaActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something;\r\n\r\nimport android.util.Log;\r\n\r\nimport com.example.something.net_work.GetRequestInterface;\r\nimport com.example.something.net_work.Translation;\r\nimport com.example.something.net_work.Translation2;\r\nimport com.example.something.net_work.base.BaseActivity;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.concurrent.Callable;\r\nimport java.util.concurrent.TimeUnit;\r\n\r\nimport io.reactivex.Observable;\r\nimport io.reactivex.ObservableEmitter;\r\nimport io.reactivex.ObservableOnSubscribe;\r\nimport io.reactivex.ObservableSource;\r\nimport io.reactivex.Observer;\r\nimport io.reactivex.android.schedulers.AndroidSchedulers;\r\nimport io.reactivex.disposables.Disposable;\r\nimport io.reactivex.functions.BiConsumer;\r\nimport io.reactivex.functions.BiFunction;\r\nimport io.reactivex.functions.Consumer;\r\nimport io.reactivex.functions.Function;\r\nimport io.reactivex.schedulers.Schedulers;\r\nimport retrofit2.Retrofit;\r\nimport retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;\r\nimport retrofit2.converter.gson.GsonConverterFactory;\r\n\r\npublic class TestRxJavaActivity extends BaseActivity {\r\n    @Override\r\n    protected int bindLayout() {\r\n        return R.layout.activity_rx_java;\r\n    }\r\n\r\n    @Override\r\n    protected void initView() {\r\n        initObservable();\r\n    }\r\n\r\n\r\n    void initObservable() {\r\n        Retrofit retrofit = new Retrofit.Builder()\r\n                .baseUrl(\"http://fy.iciba.com/\") // 设置 网络请求 Url\r\n                .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)\r\n                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 支持RxJava\r\n                .build();\r\n\r\n        GetRequestInterface request = retrofit.create(GetRequestInterface.class);\r\n        \r\n\r\n        Observable<String> observable = Observable.create(new ObservableOnSubscribe<String>() {\r\n            @Override\r\n            public void subscribe(ObservableEmitter<String> emitter) throws Exception {\r\n                emitter.onNext(\"内存中\");\r\n                emitter.onComplete();\r\n            }\r\n        });\r\n        Observable<String> observable2 = Observable.create(new ObservableOnSubscribe<String>() {\r\n            @Override\r\n            public void subscribe(ObservableEmitter<String> emitter) throws Exception {\r\n                emitter.onNext(\"网络中\");\r\n            }\r\n        });\r\n\r\n        Observable<String> observable3 = Observable.create(new ObservableOnSubscribe<String>() {\r\n            @Override\r\n            public void subscribe(ObservableEmitter<String> emitter) throws Exception {\r\n                emitter.onNext(\"磁盘中\");\r\n            }\r\n        });\r\n        Observable.merge(observable,observable2,observable3).subscribe(new Observer<String>() {\r\n            @Override\r\n            public void onSubscribe(Disposable d) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onNext(String s) {\r\n                Log.e(TAG, \"onNext: \"+s );\r\n            }\r\n\r\n            @Override\r\n            public void onError(Throwable e) {\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onComplete() {\r\n\r\n            }\r\n        });\r\n//        Observable.concat(observable,\r\n//                observable2, observable3)\r\n//                .subscribe(new Observer<String>() {\r\n//                    @Override\r\n//                    public void onSubscribe(Disposable d) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onNext(String integer) {\r\n//                        Log.e(TAG, \"onNext: \" + \"多个观察者串行:\" + integer);\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onError(Throwable e) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onComplete() {\r\n//\r\n//                    }\r\n//                });\r\n\r\n        // 事件开始延迟 发送次数 第一次发送开始延迟 每次发送事件的时间间隔\r\n//        Observable.merge(Observable.intervalRange(0,3,4,3, TimeUnit.SECONDS),\r\n//                Observable.intervalRange(10,3,0,3,TimeUnit.SECONDS))\r\n//                .subscribe(new Observer<Long>() {\r\n//                    @Override\r\n//                    public void onSubscribe(Disposable d) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onNext(Long aLong) {\r\n//                        Log.e(TAG, \"onNext: \" + \"多个观察者按发送时间串行:\" + aLong);\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onError(Throwable e) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onComplete() {\r\n//\r\n//                    }\r\n//                });\r\n\r\n        // 对多个被观察者中的事件进行合并处理\r\n//        Observable.zip(Observable.just(1, 2), Observable.just(\"嘻嘻\", \"哈哈\", \"呵呵\"), new BiFunction<Integer, String, String>() {\r\n//\r\n//            @Override\r\n//            public String apply(Integer integer, String s) throws Exception {\r\n//                return integer + s;\r\n//            }\r\n//        }).subscribe(new Observer<String>() {\r\n//            @Override\r\n//            public void onSubscribe(Disposable d) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onNext(String s) {\r\n//                Log.e(TAG, \"onNext: \" + s);\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onError(Throwable e) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onComplete() {\r\n//\r\n//            }\r\n//        });\r\n//        Observable.combineLatest(Observable.just(1, 2, 3), Observable.intervalRange(0, 3, 1, 1, TimeUnit.SECONDS), new BiFunction<Integer, Long, Long>() {\r\n//            @Override\r\n//            public Long apply(Integer integer, Long aLong) {\r\n//                Log.e(TAG, \"apply: 合并数据：\" + integer + \" \" + aLong);\r\n//                return integer + aLong;\r\n//            }\r\n//        }).subscribe(new Observer<Long>() {\r\n//            @Override\r\n//            public void onSubscribe(Disposable d) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onNext(Long aLong) {\r\n//                Log.e(TAG, \"合并结果: \" + aLong);\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onError(Throwable e) {\r\n//\r\n//            }\r\n//\r\n//            @Override\r\n//            public void onComplete() {\r\n//\r\n//            }\r\n//        });\r\n\r\n\r\n        //  前2个数据聚合，然后与后1个数据继续进行聚合\r\n//        Observable.just(1, 2, 3, 4).reduce(new BiFunction<Integer, Integer, Integer>() {\r\n//            @Override\r\n//            public Integer apply(Integer integer, Integer integer2) throws Exception {\r\n//                Log.e(TAG, \"apply: \" + (integer + integer2));\r\n//                return integer + integer2;\r\n//            }\r\n//        }).subscribe(new Consumer<Integer>() {\r\n//            @Override\r\n//            public void accept(Integer integer) throws Exception {\r\n//                Log.e(TAG, \"accept: \" + integer);\r\n//            }\r\n//        });\r\n\r\n        // 将被观察者Observable发送的数据事件收集到一个数据结构里\r\n//        Observable.just(1, 2, 3, 4, 5, 6).collect(new Callable<ArrayList<Integer>>() {\r\n//            @Override\r\n//            public ArrayList<Integer> call() throws Exception {\r\n//                return new ArrayList<>();\r\n//            }\r\n//        }, new BiConsumer<ArrayList<Integer>, Integer>() {\r\n//            @Override\r\n//            public void accept(ArrayList<Integer> integers, Integer integer) throws Exception {\r\n//                        integers.add(integer);\r\n//            }\r\n//        }).subscribe(new Consumer<ArrayList<Integer>>() {\r\n//            @Override\r\n//            public void accept(ArrayList<Integer> integers) throws Exception {\r\n//                Log.e(TAG, \"accept: \"+integers.toString() );\r\n//            }\r\n//        }).dispose();\r\n\r\n        // 在一个被观察者发送事件前，追加发送一些数据 / 一个新的被观察者\r\n//        Observable.just(1, 2, 3, 4)\r\n//                .startWith(0)\r\n//                .startWithArray(5, 6, 7, 8, 9)\r\n//                .subscribe(new Observer<Integer>() {\r\n//                    @Override\r\n//                    public void onSubscribe(Disposable d) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onNext(Integer integer) {\r\n//                        Log.e(TAG, \"onNext: \" + integer);\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onError(Throwable e) {\r\n//\r\n//                    }\r\n//\r\n//                    @Override\r\n//                    public void onComplete() {\r\n//\r\n//                    }\r\n//                });\r\n        // 统计被观察者发送事件的数量 返回结果 = Long类型\r\n//        Observable.just(1, 2, 3, 4)\r\n//                .startWith(0)\r\n//                .startWithArray(5, 6, 7, 8, 9)\r\n//                .count()\r\n//                .subscribe(new Consumer<Long>() {\r\n//                    @Override\r\n//                    public void accept(Long aLong) throws Exception {\r\n//                        Log.e(TAG, \"accept: \" + aLong);\r\n//                    }\r\n//                }).dispose();\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/TestRxJavaActivity.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/TestRxJavaActivity.java	(date 1603788507035)
+@@ -3,31 +3,18 @@
+ import android.util.Log;
+ 
+ import com.example.something.net_work.GetRequestInterface;
+-import com.example.something.net_work.Translation;
+-import com.example.something.net_work.Translation2;
+-import com.example.something.net_work.base.BaseActivity;
+-
+-import java.util.ArrayList;
+-import java.util.concurrent.Callable;
+-import java.util.concurrent.TimeUnit;
++import com.example.something.net_work.base.BaseNetActivity;
+ 
+ import io.reactivex.Observable;
+ import io.reactivex.ObservableEmitter;
+ import io.reactivex.ObservableOnSubscribe;
+-import io.reactivex.ObservableSource;
+ import io.reactivex.Observer;
+-import io.reactivex.android.schedulers.AndroidSchedulers;
+ import io.reactivex.disposables.Disposable;
+-import io.reactivex.functions.BiConsumer;
+-import io.reactivex.functions.BiFunction;
+-import io.reactivex.functions.Consumer;
+-import io.reactivex.functions.Function;
+-import io.reactivex.schedulers.Schedulers;
+ import retrofit2.Retrofit;
+ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+ import retrofit2.converter.gson.GsonConverterFactory;
+ 
+-public class TestRxJavaActivity extends BaseActivity {
++public class TestRxJavaActivity extends BaseNetActivity {
+     @Override
+     protected int bindLayout() {
+         return R.layout.activity_rx_java;
+Index: app/src/main/java/com/example/something/net_work/base/ConstantUrl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.net_work.base;\r\n\r\n// 链接url配置\r\npublic class ConstantUrl {\r\n    public static final long DEFAULT_TIME = 10;\r\n    public static final String baseUrl = \"https://wanandroid.com/\";\r\n    static final String list = \"wxarticle/chapters/json/\";\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/net_work/base/ConstantUrl.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/net_work/base/ConstantUrl.java	(date 1603853964583)
+@@ -2,7 +2,7 @@
+ 
+ // 链接url配置
+ public class ConstantUrl {
+-    public static final long DEFAULT_TIME = 10;
++    public static final long DEFAULT_TIME = 30;
+     public static final String baseUrl = "https://wanandroid.com/";
+     static final String list = "wxarticle/chapters/json/";
+ }
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Apr 02 09:52:55 CST 2020\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-5.4.1-all.zip\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gradle/wrapper/gradle-wrapper.properties	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ gradle/wrapper/gradle-wrapper.properties	(date 1603856770086)
+@@ -1,6 +1,6 @@
+-#Thu Apr 02 09:52:55 CST 2020
++#Wed Oct 28 11:46:10 CST 2020
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-5.4.1-all.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+Index: app/src/main/res/layout/activity_kotlin.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\">\r\n\r\n\r\n    <TextView\r\n        android:id=\"@+id/tv_test\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:padding=\"10dp\"\r\n        android:text=\"协程测试\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/tv_content\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:padding=\"10dp\" />\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_kotlin.xml	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/res/layout/activity_kotlin.xml	(date 1603871355882)
+@@ -1,21 +1,27 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical">
++    android:orientation="vertical"
++    tools:ignore="HardcodedText">
+ 
+ 
+     <TextView
+         android:id="@+id/tv_test"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
++        android:layout_gravity="center_horizontal"
+         android:padding="10dp"
+-        android:text="协程测试" />
++        android:text="协程获取图片并且显示" />
+ 
+-    <TextView
+-        android:id="@+id/tv_content"
++
++    <ImageView
++        android:id="@+id/iv_img"
++        android:layout_gravity="center_horizontal"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+-        android:padding="10dp" />
++        android:padding="10dp"
++        tools:ignore="ContentDescription" />
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/something/kotlin_test/DelegationClass.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.kotlin_test\r\n\r\nimport kotlin.reflect.KProperty\r\n\r\n/**\r\n *  create by pan yi on 2020/10/22\r\n *  desc : 委托类测试\r\n */\r\nclass DelegationClass {\r\n    companion object {\r\n        @JvmStatic\r\n        fun main(strings: Array<String>) {\r\n//            SaveDB(Sql()).save()\r\n//            SaveDB(GreenDao()).save()\r\n            val list = ArrayList<String>()\r\n            for (i in 1..10) {\r\n                list.add(\"$i count\")\r\n            }\r\n            val test = LogList({\r\n                println(\"log\")\r\n            }, list).get(0)\r\n            println(test)\r\n            StringLazy(\"lazy\")\r\n        }\r\n    }\r\n\r\n    interface DB {\r\n        fun save()\r\n    }\r\n\r\n    class Sql : DB {\r\n        override fun save() {\r\n            println(\"sql save\")\r\n        }\r\n    }\r\n\r\n    class GreenDao : DB {\r\n        override fun save() {\r\n            println(\"greenDao save\")\r\n        }\r\n\r\n    }\r\n\r\n    class SaveDB(db: DB) : DB by db\r\n\r\n    class LogList(val log: () -> Unit, val list: MutableList<String>) :\r\n        MutableList<String> by list {\r\n        fun getAndLog(position: Int): String {\r\n            println(size.toString())\r\n            log()\r\n            return get(position)\r\n        }\r\n    }\r\n\r\n    class Owner {\r\n        var text: String = \"Hello\"\r\n    }\r\n\r\n    class StringLazy(private var s: String = \"\") {\r\n        operator fun getValue(thisRef: Owner, property: KProperty<*>): String {\r\n            return s\r\n        }\r\n\r\n        operator fun setValue(thisRef: Owner, property: KProperty<*>, value: String) {\r\n            s = value\r\n        }\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/kotlin_test/DelegationClass.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/kotlin_test/DelegationClass.kt	(date 1603780994123)
+@@ -1,5 +1,6 @@
+ package com.example.something.kotlin_test
+ 
++import org.weishe.baselibrary.utils.log
+ import kotlin.reflect.KProperty
+ 
+ /**
+@@ -12,15 +13,19 @@
+         fun main(strings: Array<String>) {
+ //            SaveDB(Sql()).save()
+ //            SaveDB(GreenDao()).save()
++//            val list = ArrayList<String>()
++//            for (i in 1..10) {
++//                list.add("$i count")
++//            }
++//            val test = LogList({
++//                println("log")
++//            }, list)[0]
++//            println(test)
++//            StringLazy("lazy")
+             val list = ArrayList<String>()
+-            for (i in 1..10) {
+-                list.add("$i count")
+-            }
+-            val test = LogList({
+-                println("log")
+-            }, list).get(0)
+-            println(test)
+-            StringLazy("lazy")
++            list.add("123456")
++            val logList = LogList({}, list)
++            println(logList.getAndLog(0))
+         }
+     }
+ 
+@@ -53,7 +58,7 @@
+     }
+ 
+     class Owner {
+-        var text: String = "Hello"
++        var text: String by StringLazy()
+     }
+ 
+     class StringLazy(private var s: String = "") {
+@@ -64,6 +69,6 @@
+         operator fun setValue(thisRef: Owner, property: KProperty<*>, value: String) {
+             s = value
+         }
+-
+     }
++
+ }
+\ No newline at end of file
+Index: app/baselibrary/src/main/java/org/weishe/baselibrary/dialog/SelectTimeDialog.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.weishe.baselibrary.dialog\r\n\r\nimport android.graphics.Color\r\nimport android.graphics.drawable.ColorDrawable\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.Gravity\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.TextView\r\nimport androidx.fragment.app.DialogFragment\r\nimport com.bigkoo.pickerview.adapter.ArrayWheelAdapter\r\nimport com.contrarywind.view.WheelView\r\nimport org.weishe.baselibrary.R\r\nimport org.weishe.baselibrary.utils.toast\r\nimport java.text.SimpleDateFormat\r\nimport java.util.*\r\n\r\n\r\n/**\r\n *  create by pan yi on 2020/10/19\r\n *  desc :  时间选择器\r\n */\r\nclass SelectTimeDialog : DialogFragment() {\r\n    private var viewParent: View? = null\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater,\r\n        container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        return if (viewParent == null) {\r\n            val rootView = inflater.inflate(R.layout.dialog_select_time, container, false)\r\n            viewParent = rootView\r\n            initView(rootView)\r\n            viewParent\r\n        } else {\r\n            viewParent?.let {\r\n                (it.parent as ViewGroup).removeView(it)\r\n            }\r\n            viewParent\r\n        }\r\n    }\r\n\r\n    override fun onResume() {\r\n        super.onResume()\r\n        val dm = activity?.resources?.displayMetrics\r\n        dialog?.window?.let { window ->\r\n            val lp = window.attributes\r\n            lp.width = ViewGroup.LayoutParams.MATCH_PARENT\r\n            dm?.let {\r\n                lp.height = it.heightPixels / 2\r\n            }\r\n            window.setGravity(Gravity.BOTTOM)\r\n            window.setLayout(lp.width, lp.height)\r\n            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))\r\n        }\r\n    }\r\n\r\n    private val yearItems: ArrayList<String> = ArrayList()\r\n    private val yearItems2: ArrayList<String> = ArrayList()\r\n    private val monthItems: ArrayList<String> = ArrayList()\r\n    private val monthItems2: ArrayList<String> = ArrayList()\r\n    private val dayItems: ArrayList<String> = ArrayList()\r\n    private val dayItems2: ArrayList<String> = ArrayList()\r\n\r\n    private var year = \"1970\"\r\n    private var month = \"01\"\r\n    private var day = \"01\"\r\n    private var year2 = \"1970\"\r\n    private var month2 = \"01\"\r\n    private var day2 = \"01\"\r\n    fun initView(view: View) {\r\n        val yearV = view.findViewById<WheelView>(R.id.year)\r\n        val monthV = view.findViewById<WheelView>(R.id.month)\r\n        val dayV = view.findViewById<WheelView>(R.id.day)\r\n        val yearV2 = view.findViewById<WheelView>(R.id.year2)\r\n        val monthV2 = view.findViewById<WheelView>(R.id.month2)\r\n        val dayV2 = view.findViewById<WheelView>(R.id.day2)\r\n        initType(yearV, monthV, dayV, yearV2, monthV2, dayV2)\r\n\r\n        for (i in 1970..2099) {\r\n            yearItems.add(i.toString())\r\n            yearItems2.add(i.toString())\r\n        }\r\n        for (i in 1..12) {\r\n            var head = \"\"\r\n            if (i < 10) {\r\n                head = \"0\"\r\n            }\r\n            monthItems.add(head + i.toString())\r\n            monthItems2.add(head + i.toString())\r\n        }\r\n        for (i in 1..31) {\r\n            dayItems.add(i.toString())\r\n            dayItems2.add(i.toString())\r\n        }\r\n\r\n        yearV.adapter = ArrayWheelAdapter<String>(yearItems)\r\n        yearV2.adapter = ArrayWheelAdapter<String>(yearItems2)\r\n\r\n        monthV.adapter = ArrayWheelAdapter<String>(monthItems)\r\n        monthV2.adapter = ArrayWheelAdapter<String>(monthItems2)\r\n\r\n        dayV.adapter = ArrayWheelAdapter<String>(dayItems)\r\n        dayV2.adapter = ArrayWheelAdapter<String>(dayItems2)\r\n\r\n\r\n\r\n        yearV.setOnItemSelectedListener { index ->\r\n            year = yearItems[index]\r\n            when (month) {\r\n                \"02\" -> {\r\n                    dayItems.clear()\r\n                    for (i in 1..28) {\r\n                        dayItems.add(getRealDay(i))\r\n                    }\r\n                    when (year.toInt() % 4) {\r\n                        0 -> {\r\n                            dayItems.add(\"29\")\r\n                        }\r\n                    }\r\n                    dayV.adapter = ArrayWheelAdapter<String>(dayItems)\r\n                    val currentItem = dayV.currentItem\r\n                    dayV.currentItem = currentItem\r\n                    day = dayItems[currentItem]\r\n                }\r\n            }\r\n        }\r\n        yearV2.setOnItemSelectedListener { index ->\r\n            year2 = yearItems[index]\r\n            when (month) {\r\n                \"02\" -> {\r\n                    dayItems2.clear()\r\n                    for (i in 1..28) {\r\n                        dayItems2.add(getRealDay(i))\r\n                    }\r\n                    when (year2.toInt() % 4) {\r\n                        0 -> {\r\n                            dayItems2.add(\"29\")\r\n                        }\r\n                    }\r\n                    dayV2.adapter = ArrayWheelAdapter<String>(dayItems2)\r\n                    val currentItem = dayV2.currentItem\r\n                    dayV2.currentItem = currentItem\r\n                    day2 = dayItems2[currentItem]\r\n                }\r\n            }\r\n        }\r\n\r\n        monthV.setOnItemSelectedListener { index ->\r\n            month = monthItems[index]\r\n            dayItems.clear()\r\n            when (month) {\r\n                \"01\", \"03\", \"05\", \"07\", \"08\", \"10\", \"12\" -> {\r\n                    for (i in 1..31) {\r\n                        dayItems.add(getRealDay(i))\r\n                    }\r\n                }\r\n                \"02\" -> {\r\n                    for (i in 1..28) {\r\n                        dayItems.add(getRealDay(i))\r\n                    }\r\n                    when (year.toInt() % 4) {\r\n                        0 -> {\r\n                            dayItems.add(\"29\")\r\n                        }\r\n                    }\r\n                }\r\n                else -> {\r\n                    for (i in 1..30) {\r\n                        dayItems.add(getRealDay(i))\r\n                    }\r\n                }\r\n            }\r\n            dayV.adapter = ArrayWheelAdapter<String>(dayItems)\r\n            val currentItem = dayV.currentItem\r\n            dayV.currentItem = currentItem\r\n            day = dayItems[currentItem]\r\n        }\r\n        monthV2.setOnItemSelectedListener { index ->\r\n            month2 = monthItems2[index]\r\n            dayItems2.clear()\r\n            when (month2) {\r\n                \"01\", \"03\", \"05\", \"07\", \"08\", \"10\", \"12\" -> {\r\n                    for (i in 1..31) {\r\n                        dayItems2.add(getRealDay(i))\r\n                    }\r\n                }\r\n                \"02\" -> {\r\n                    for (i in 1..28) {\r\n                        dayItems2.add(getRealDay(i))\r\n                    }\r\n                    when (year2.toInt() % 4) {\r\n                        0 -> {\r\n                            dayItems2.add(\"29\")\r\n                        }\r\n                    }\r\n                }\r\n                else -> {\r\n                    for (i in 1..30) {\r\n                        dayItems2.add(getRealDay(i))\r\n                    }\r\n                }\r\n            }\r\n            dayV2.adapter = ArrayWheelAdapter<String>(dayItems2)\r\n            val currentItem = dayV2.currentItem\r\n            dayV2.currentItem = currentItem\r\n            day2 = dayItems2[currentItem]\r\n        }\r\n\r\n        dayV.setOnItemSelectedListener { index ->\r\n            day = dayItems[index]\r\n            Log.e(\"TAG  day change\", \"initView: \" + day)\r\n        }\r\n        dayV2.setOnItemSelectedListener { index ->\r\n            day2 = dayItems2[index]\r\n        }\r\n        yearV.currentItem = yearItems.indexOf(getCurrentYear())\r\n        yearV2.currentItem = yearItems2.indexOf(getCurrentYear())\r\n\r\n        monthV.currentItem = monthItems.indexOf(getCurrentMonth())\r\n        monthV2.currentItem = monthItems.indexOf(getCurrentMonth())\r\n\r\n        dayV.currentItem = dayItems.indexOf(getCurrentDay())\r\n        dayV2.currentItem = dayItems2.indexOf(getCurrentDay())\r\n\r\n        val tvComplete = view.findViewById<TextView>(R.id.tv_complete)\r\n        val tvClear = view.findViewById<TextView>(R.id.tv_clear)\r\n        tvComplete.setOnClickListener {\r\n            confirmListener?.let { listener ->\r\n                val startTime = (year + month + day).toInt()\r\n                val endTime = (year2 + month2 + day2).toInt()\r\n                if (startTime > endTime) {\r\n                    context?.let {\r\n                        toast(it, \"结束时间不能小于开始时间\")\r\n                    }\r\n\r\n                    return@setOnClickListener\r\n                }\r\n                onOperation.invoke()\r\n                onComplete(\"message\")\r\n                val lineStr = \"-\"\r\n                val lineStrLine = \" - \"\r\n                listener.confirmTime(year + lineStr + month + lineStr + day + lineStrLine + year2 + lineStr + month2 + lineStr + day2)\r\n            }\r\n            dismiss()\r\n        }\r\n        tvClear.setOnClickListener {\r\n            confirmListener?.confirmTime(\"\")\r\n            dismiss()\r\n        }\r\n\r\n    }\r\n\r\n    private fun initType(vararg wheelViews: WheelView) {\r\n        for (wheelView in wheelViews) {\r\n            wheelView.setTextSize(14f)\r\n            wheelView.setCyclic(false)\r\n            wheelView.setLineSpacingMultiplier(2f)\r\n            wheelView.setDividerType(WheelView.DividerType.WRAP)\r\n        }\r\n    }\r\n\r\n    override fun dismiss() {\r\n        super.dismiss()\r\n        dismissListener?.timeDialogDismiss()\r\n    }\r\n\r\n    fun addConfirmListener(confirmListener: ConfirmListener) {\r\n        this.confirmListener = confirmListener\r\n    }\r\n\r\n    var confirmListener: ConfirmListener? = null\r\n    var dismissListener: DismissListener? = null\r\n\r\n    interface ConfirmListener {\r\n        fun confirmTime(time: String)\r\n    }\r\n\r\n    interface DismissListener {\r\n        fun timeDialogDismiss()\r\n    }\r\n\r\n    private fun getCurrentYear(): String {\r\n        val ca = Calendar.getInstance()\r\n        val format = SimpleDateFormat(\"yyyy\", Locale.getDefault())\r\n        val currentYear = format.format(ca.time)\r\n        year = currentYear\r\n        year2 = currentYear\r\n        return currentYear\r\n    }\r\n\r\n    private fun getCurrentMonth(): String {\r\n        val ca = Calendar.getInstance()\r\n        val format = SimpleDateFormat(\"MM\", Locale.getDefault())\r\n        val currentMonth = format.format(ca.time)\r\n        month = currentMonth\r\n        month2 = currentMonth\r\n        return currentMonth\r\n    }\r\n\r\n    private fun getCurrentDay(): String {\r\n        val ca = Calendar.getInstance()\r\n        val format = SimpleDateFormat(\"dd\", Locale.getDefault())\r\n        val currentDay = format.format(ca.time)\r\n        day = currentDay\r\n        day2 = currentDay\r\n        return currentDay\r\n    }\r\n\r\n    private fun getRealDay(day: Int): String {\r\n        return if (day > 9) {\r\n            day.toString()\r\n        } else {\r\n            \"0$day\"\r\n        }\r\n\r\n    }\r\n\r\n    override fun onStop() {\r\n        super.onStop()\r\n        dismissListener?.timeDialogDismiss()\r\n    }\r\n\r\n\r\n    private var onOperation: () -> Unit = {}\r\n    private var onComplete: (String) -> Unit = {}\r\n    fun change(onOperation: () -> Unit = {}, onComplete: (String) -> Unit) {\r\n        this.onOperation = onOperation\r\n        this.onComplete = onComplete\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/baselibrary/src/main/java/org/weishe/baselibrary/dialog/SelectTimeDialog.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/baselibrary/src/main/java/org/weishe/baselibrary/dialog/SelectTimeDialog.kt	(date 1604384945527)
+@@ -238,7 +238,7 @@
+ 
+                     return@setOnClickListener
+                 }
+-                onOperation.invoke()
++                onOperation.invoke("str")
+                 onComplete("message")
+                 val lineStr = "-"
+                 val lineStrLine = " - "
+@@ -324,9 +324,9 @@
+     }
+ 
+ 
+-    private var onOperation: () -> Unit = {}
++    private var onOperation: String.() -> Unit = {}
+     private var onComplete: (String) -> Unit = {}
+-    fun change(onOperation: () -> Unit = {}, onComplete: (String) -> Unit) {
++    fun change(onOperation: String.() -> Unit = {}, onComplete: (String) -> Unit) {
+         this.onOperation = onOperation
+         this.onComplete = onComplete
+ 
+Index: app/baselibrary/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.library'\r\napply plugin: 'kotlin-android'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        minSdkVersion 21\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n        consumerProguardFiles 'consumer-rules.pro'\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n    api 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    // Java8 support for Lifecycles\r\n    api 'androidx.lifecycle:lifecycle-common-java8:2.2.0'\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\r\n    api 'androidx.recyclerview:recyclerview:1.2.0-alpha06'\r\n    api 'com.github.bumptech.glide:glide:4.11.0'\r\n    testImplementation 'junit:junit:4.13'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n    api 'com.contrarywind:Android-PickerView:4.1.9'\r\n    api \"androidx.core:core-ktx:1.3.2\"\r\n    api \"androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0\"\r\n    //noinspection GradleDependency\r\n    api \"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version\"\r\n    api \"org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7\"\r\n}\r\nrepositories {\r\n    mavenCentral()\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/baselibrary/build.gradle	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/baselibrary/build.gradle	(date 1603955154283)
+@@ -30,7 +30,7 @@
+     // Java8 support for Lifecycles
+     api 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
+     implementation 'androidx.appcompat:appcompat:1.2.0'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
++    api 'androidx.constraintlayout:constraintlayout:2.0.3'
+     api 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
+     api 'com.github.bumptech.glide:glide:4.11.0'
+     testImplementation 'junit:junit:4.13'
+@@ -41,7 +41,10 @@
+     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+     //noinspection GradleDependency
+     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
++    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8"
++    api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
++    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
++
+ }
+ repositories {
+     mavenCentral()
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\napply plugin: 'kotlin-android'\r\n\r\napply plugin: 'kotlin-android-extensions'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n    defaultConfig {\r\n        applicationId \"com.example.something\"\r\n        minSdkVersion 24\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n\r\n        dataBinding {\r\n            true\r\n        }\r\n    }\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n    //noinspection GradleDependency\r\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version\"\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.core:core-ktx:1.3.2'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'\r\n    testImplementation 'junit:junit:4.13'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n\r\n    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'\r\n    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'\r\n    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'\r\n//    implementation 'com.jakewharton.list:retrofit2-rxjava2-adapter:1.0.0'\r\n    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'\r\n    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'\r\n    implementation 'com.jakewharton:butterknife:10.2.1'\r\n    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'\r\n    implementation 'androidx.room:room-runtime:2.2.5'\r\n    implementation 'org.litepal.android:core:2.0.0'\r\n    implementation project(\":app:baselibrary\")\r\n    annotationProcessor 'androidx.room:room-compiler:2.2.5'\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/build.gradle	(date 1605606633745)
+@@ -5,12 +5,12 @@
+ apply plugin: 'kotlin-android-extensions'
+ 
+ android {
+-    compileSdkVersion 29
++    compileSdkVersion 30
+     buildToolsVersion "29.0.3"
+     defaultConfig {
+         applicationId "com.example.something"
+         minSdkVersion 24
+-        targetSdkVersion 29
++        targetSdkVersion 30
+         versionCode 1
+         versionName "1.0"
+         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+@@ -37,7 +37,6 @@
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+     implementation 'androidx.appcompat:appcompat:1.2.0'
+     implementation 'androidx.core:core-ktx:1.3.2'
+-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+     testImplementation 'junit:junit:4.13'
+     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+Index: app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.kt	(date 1604301219628)
++++ app/baselibrary/src/main/java/org/weishe/baselibrary/EmptyActivity.kt	(date 1604301219628)
+@@ -0,0 +1,32 @@
++package org.weishe.baselibrary
++
++import android.content.Intent
++import android.os.Bundle
++import androidx.appcompat.app.AppCompatActivity
++import org.weishe.baselibrary.bean.SelectPhotoBean
++import org.weishe.baselibrary.listener.SelectResultListenerParent
++
++class EmptyActivity : AppCompatActivity() {
++    var code = 100
++    var bean: SelectPhotoBean? = null
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        bean = intent.getSerializableExtra("photoBean") as SelectPhotoBean
++        val intent = Intent(this, PhotoActivity::class.java)
++        intent.putExtra("photoBean", bean)
++        startActivityForResult(intent, code)
++    }
++
++    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
++        super.onActivityResult(requestCode, resultCode, data)
++        if (resultCode == RESULT_OK && requestCode == code) {
++            if (data != null) {
++                val pathList = data.getStringArrayListExtra("data")
++                if (pathList != null && pathList.size > 0) {
++                    SelectResultListenerParent.getInstance().listener.selectResult(pathList)
++                }
++            }
++            finish()
++        }
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/something/view_model/TestViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/view_model/TestViewModel.kt	(date 1604042050867)
++++ app/src/main/java/com/example/something/view_model/TestViewModel.kt	(date 1604042050867)
+@@ -0,0 +1,18 @@
++package com.example.something.view_model
++
++import androidx.lifecycle.MutableLiveData
++import androidx.lifecycle.ViewModel
++
++
++class TestViewModel : ViewModel() {
++    private val liveData = MutableLiveData<String>()
++     fun getName(): MutableLiveData<String> {
++        addName()
++        return liveData
++    }
++
++
++    private fun addName() {
++        liveData.value = "name"
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/something/kotlin_test/KotlinActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.kotlin_test\r\n\r\nimport android.annotation.SuppressLint\r\nimport android.util.Log\r\nimport com.example.something.R\r\nimport com.example.something.net_work.base.BaseActivity\r\nimport kotlinx.android.synthetic.main.activity_kotlin.*\r\nimport kotlinx.coroutines.*\r\n\r\n\r\nclass KotlinActivity : BaseActivity() {\r\n\r\n    override fun bindLayout(): Int {\r\n        return R.layout.activity_kotlin\r\n    }\r\n\r\n    var token = \"\"\r\n    var user = \"\"\r\n\r\n    @SuppressLint(\"SetTextI18n\")\r\n    override fun initView() {\r\n        tv_test.setOnClickListener {\r\n            Log.e(TAG, \"主线程id：${mainLooper.thread.id}\")\r\n//           runBlocking {\r\n//               repeat(5){\r\n//                   Log.e(TAG, \"协程执行$it 线程id：${Thread.currentThread().id}\")\r\n//                   delay(300L)\r\n//               }\r\n//           }\r\n\r\n            // 协程三个参数 协程上下文：协程执行的线程；启动模式；协程体\r\n            GlobalScope.launch {\r\n//                delay(3000L)\r\n//                Log.e(TAG, \"协程执行  线程id：${Thread.currentThread().id}\")\r\n                Log.e(\"TAG\", \"协程开始: \")\r\n//                val token = getToken()\r\n//                val user = getUser()\r\n\r\n                // async是不阻塞线程的,也就是说getToken和getUser是同时进行的\r\n                val result1 = GlobalScope.async {\r\n                    getToken()\r\n                }\r\n                val result2 = GlobalScope.async {\r\n                    getUser()\r\n                }\r\n\r\n//                Log.e(TAG, \"$token  $user 线程id：${Thread.currentThread().id}\")\r\n                val result = result1.await() + result2.await()\r\n                Log.e(TAG, result)\r\n            }\r\n            Log.e(TAG, \"协程结束: \")\r\n        }\r\n        val tvCtrl: Controller<TestBean> = Controller()\r\n        val bean = TestBean()\r\n        val string = \"\"\r\n\r\n\r\n        turnOn(bean)\r\n        turnOff(string)\r\n\r\n        val university: University<Student> = University(\"\")\r\n        val femaleUniversity: University<FemaleStudent> = University<FemaleStudent>(\"\")\r\n\r\n        val student: Student? = university.get()\r\n        val femaleStudent: Student? = university.get()\r\n\r\n    }\r\n\r\n    // 使用处协变 out修饰，只往外取\r\n    fun unGet(university: University<out Student>) {\r\n        val femaleStudent: Student? = university.get()\r\n    }\r\n    // 使用处逆变 in修饰，只往里放\r\n    fun unPut(university: University<in Student>) {\r\n        university.put(FemaleStudent())\r\n    }\r\n    class University<T>(val name: String) {\r\n        fun get(): T? {\r\n            return null\r\n        }\r\n\r\n        fun put(student: T) {\r\n\r\n        }\r\n    }\r\n\r\n    private fun <T> turnOn(obj: T) {\r\n\r\n    }\r\n\r\n    private fun <T> turnOff(obj: T) {\r\n\r\n    }\r\n\r\n    // 协程里 suspend方法 顺序执行\r\n    private suspend fun getToken(): String {\r\n        delay(5000)\r\n        return \"token\"\r\n    }\r\n\r\n    private suspend fun getUser(): String {\r\n        delay(3000)\r\n        return \"user\"\r\n    }\r\n\r\n    open class Student\r\n    class FemaleStudent : Student()\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/kotlin_test/KotlinActivity.kt	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/kotlin_test/KotlinActivity.kt	(date 1606375369617)
+@@ -1,108 +1,68 @@
+ package com.example.something.kotlin_test
+ 
+-import android.annotation.SuppressLint
++import android.content.Intent
++import android.net.Uri
++import android.os.Bundle
+ import android.util.Log
++import androidx.lifecycle.Observer
++import androidx.lifecycle.ViewModelProvider
+ import com.example.something.R
+-import com.example.something.net_work.base.BaseActivity
++import com.example.something.view_model.TestViewModel
+ import kotlinx.android.synthetic.main.activity_kotlin.*
+-import kotlinx.coroutines.*
+-
++import kotlinx.coroutines.Dispatchers
++import kotlinx.coroutines.GlobalScope
++import kotlinx.coroutines.launch
++import kotlinx.coroutines.withContext
++import org.weishe.baselibrary.utils.toast
+ 
+-class KotlinActivity : BaseActivity() {
+ 
+-    override fun bindLayout(): Int {
+-        return R.layout.activity_kotlin
++class KotlinActivity : ScopedActivity() {
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_kotlin)
++        val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(application)
++            .create(TestViewModel::class.java)
++        initView()
++        viewModel.getName().observe(this, Observer {
++            tv_test.text = it
++        })
++        val result = openBrowserForDownloadUrl()
++        if (!result) {
++            toast(this, "地址异常!")
++        }
+     }
+ 
+-    var token = ""
+-    var user = ""
+-
+-    @SuppressLint("SetTextI18n")
+-    override fun initView() {
++    private fun initView() {
+         tv_test.setOnClickListener {
+-            Log.e(TAG, "主线程id：${mainLooper.thread.id}")
+-//           runBlocking {
+-//               repeat(5){
+-//                   Log.e(TAG, "协程执行$it 线程id：${Thread.currentThread().id}")
+-//                   delay(300L)
+-//               }
+-//           }
+-
+-            // 协程三个参数 协程上下文：协程执行的线程；启动模式；协程体
+-            GlobalScope.launch {
+-//                delay(3000L)
+-//                Log.e(TAG, "协程执行  线程id：${Thread.currentThread().id}")
+-                Log.e("TAG", "协程开始: ")
+-//                val token = getToken()
+-//                val user = getUser()
+-
+-                // async是不阻塞线程的,也就是说getToken和getUser是同时进行的
+-                val result1 = GlobalScope.async {
+-                    getToken()
+-                }
+-                val result2 = GlobalScope.async {
+-                    getUser()
+-                }
++            GlobalScope.launch(Dispatchers.Main) {
++                ioCode()
++                uiCode()
++            }
+ 
+-//                Log.e(TAG, "$token  $user 线程id：${Thread.currentThread().id}")
+-                val result = result1.await() + result2.await()
+-                Log.e(TAG, result)
+-            }
+-            Log.e(TAG, "协程结束: ")
+-        }
+-        val tvCtrl: Controller<TestBean> = Controller()
+-        val bean = TestBean()
+-        val string = ""
+-
+-
+-        turnOn(bean)
+-        turnOff(string)
+-
+-        val university: University<Student> = University("")
+-        val femaleUniversity: University<FemaleStudent> = University<FemaleStudent>("")
++        }
++    }
+ 
+-        val student: Student? = university.get()
+-        val femaleStudent: Student? = university.get()
+-
++    private fun uiCode() {
++        Log.e("TAG", "uiCode: " + Thread.currentThread().name)
+     }
+ 
+-    // 使用处协变 out修饰，只往外取
+-    fun unGet(university: University<out Student>) {
+-        val femaleStudent: Student? = university.get()
+-    }
+-    // 使用处逆变 in修饰，只往里放
+-    fun unPut(university: University<in Student>) {
+-        university.put(FemaleStudent())
++    private suspend fun ioCode() {
++        withContext(Dispatchers.IO) {
++            Log.e("TAG", "uiCode: " + Thread.currentThread().name)
++        }
+     }
+-    class University<T>(val name: String) {
+-        fun get(): T? {
+-            return null
+-        }
+ 
+-        fun put(student: T) {
+-
++    private fun openBrowserForDownloadUrl(): Boolean {
++        try {
++            val uri = Uri.parse("http://www.baidu.com")
++//            val uri = Uri.parse("65453487")
++            val intent = Intent(Intent.ACTION_VIEW, uri)
++            startActivity(intent)
++            return true
++        } catch (e: Exception) {
++            e.printStackTrace()
++            return false
+         }
+-    }
+-
+-    private fun <T> turnOn(obj: T) {
+ 
+     }
+-
+-    private fun <T> turnOff(obj: T) {
+-
+-    }
+-
+-    // 协程里 suspend方法 顺序执行
+-    private suspend fun getToken(): String {
+-        delay(5000)
+-        return "token"
+-    }
+-
+-    private suspend fun getUser(): String {
+-        delay(3000)
+-        return "user"
+-    }
+-
+-    open class Student
+-    class FemaleStudent : Student()
+ }
+\ No newline at end of file
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    ext.kotlin_version = '1.4.10'\r\n    ext.kotlin_version = '1.3.61'\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:3.5.3'\r\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ build.gradle	(date 1603856649643)
+@@ -9,7 +9,7 @@
+         
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.5.3'
++        classpath 'com.android.tools.build:gradle:4.0.2'
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"CMakeSettings\">\r\n    <configurations>\r\n      <configuration PROFILE_NAME=\"Debug\" CONFIG_NAME=\"Debug\" />\r\n    </configurations>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_1_8\" project-jdk-name=\"1.8\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ .idea/misc.xml	(date 1604313018830)
+@@ -5,7 +5,7 @@
+       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+     </configurations>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+Index: app/src/main/java/com/example/something/net_work/base/BasePresenter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.net_work.base;\r\n\r\nimport androidx.lifecycle.Lifecycle;\r\nimport androidx.lifecycle.LifecycleObserver;\r\nimport androidx.lifecycle.OnLifecycleEvent;\r\n\r\nimport com.example.something.net_work.utils.RetrofitUtils;\r\n\r\nimport java.lang.ref.WeakReference;\r\n\r\nimport io.reactivex.Observable;\r\nimport io.reactivex.android.schedulers.AndroidSchedulers;\r\nimport io.reactivex.disposables.CompositeDisposable;\r\nimport io.reactivex.schedulers.Schedulers;\r\n\r\n@SuppressWarnings(\"ALL\")\r\npublic class BasePresenter<V extends BaseView> implements LifecycleObserver {\r\n    private CompositeDisposable disposable;\r\n    private WeakReference<V> reference;\r\n\r\n    protected ApiUrl apiServer = RetrofitUtils.getApiUrl();\r\n\r\n    public BasePresenter(V baseView) {\r\n        reference = new WeakReference<>(baseView);\r\n    }\r\n\r\n    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)\r\n    public void onDestroy() {\r\n        detachView();\r\n    }\r\n\r\n    /**\r\n     * 解除绑定\r\n     */\r\n    public void detachView() {\r\n        reference.clear();\r\n        reference = null;\r\n        removeDisposable();\r\n    }\r\n\r\n    /**\r\n     * 返回 view\r\n     */\r\n    public V getBaseView() {\r\n        return reference.get();\r\n    }\r\n\r\n    public void addDisposable(Observable<?> observable, BaseObserver observer) {\r\n        if (disposable == null) {\r\n            disposable = new CompositeDisposable();\r\n        }\r\n        disposable.add(observable.subscribeOn(Schedulers.io())\r\n                .observeOn(AndroidSchedulers.mainThread())\r\n                .subscribeWith(observer));\r\n    }\r\n\r\n    private void removeDisposable() {\r\n        if (disposable != null) {\r\n            disposable.dispose();\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/something/net_work/base/BasePresenter.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/net_work/base/BasePresenter.java	(date 1604302666176)
+@@ -1,7 +1,10 @@
+ package com.example.something.net_work.base;
+ 
++import androidx.annotation.NonNull;
++import androidx.lifecycle.DefaultLifecycleObserver;
+ import androidx.lifecycle.Lifecycle;
+ import androidx.lifecycle.LifecycleObserver;
++import androidx.lifecycle.LifecycleOwner;
+ import androidx.lifecycle.OnLifecycleEvent;
+ 
+ import com.example.something.net_work.utils.RetrofitUtils;
+@@ -14,7 +17,7 @@
+ import io.reactivex.schedulers.Schedulers;
+ 
+ @SuppressWarnings("ALL")
+-public class BasePresenter<V extends BaseView> implements LifecycleObserver {
++public class BasePresenter<V extends BaseView> implements DefaultLifecycleObserver {
+     private CompositeDisposable disposable;
+     private WeakReference<V> reference;
+ 
+@@ -24,11 +27,12 @@
+         reference = new WeakReference<>(baseView);
+     }
+ 
+-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+-    public void onDestroy() {
++    @Override
++    public void onDestroy(@NonNull LifecycleOwner owner) {
+         detachView();
+     }
+ 
++
+     /**
+      * 解除绑定
+      */
+Index: app/src/main/java/com/example/something/net_work/base/BaseActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.something.net_work.base;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.Nullable;\r\nimport androidx.fragment.app.Fragment;\r\nimport androidx.fragment.app.FragmentTransaction;\r\n\r\nimport com.example.something.R;\r\nimport com.example.something.utils.StatusBarUtil;\r\nimport com.trello.rxlifecycle2.components.support.RxAppCompatActivity;\r\n\r\nimport butterknife.ButterKnife;\r\n\r\npublic abstract class BaseActivity extends RxAppCompatActivity {\r\n    protected String TAG = getClass().getSimpleName();\r\n\r\n    @Override\r\n    protected void onCreate(@Nullable Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(bindLayout());\r\n        initView();\r\n        initPresenter();\r\n        ButterKnife.bind(this);\r\n        StatusBarUtil.setStatusBarColor(this, R.color.white);\r\n        StatusBarUtil.setStatusTextDark(this, true);\r\n    }\r\n\r\n    protected abstract int bindLayout();\r\n\r\n\r\n    protected  abstract void initView();\r\n\r\n    protected void initPresenter() {\r\n    }\r\n\r\n    /**\r\n     * 启动Fragment\r\n     *\r\n     * @param id       id\r\n     * @param fragment 碎片\r\n     */\r\n    protected void startFragment(int id, Fragment fragment) {\r\n        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();\r\n        fragmentTransaction.add(id, fragment);\r\n        fragmentTransaction.commit();\r\n    }\r\n}\r\n
+===================================================================
+--- app/src/main/java/com/example/something/net_work/base/BaseActivity.java	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ app/src/main/java/com/example/something/net_work/base/BaseNetActivity.java	(date 1603788507012)
+@@ -12,7 +12,7 @@
+ 
+ import butterknife.ButterKnife;
+ 
+-public abstract class BaseActivity extends RxAppCompatActivity {
++public abstract class BaseNetActivity extends RxAppCompatActivity {
+     protected String TAG = getClass().getSimpleName();
+ 
+     @Override
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n            <option value=\"$PROJECT_DIR$/app/baselibrary\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n\t\t<option name=\"delegatedBuild\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 07f2a8b9b7506b3069dfbf41f7179341e239e595)
++++ .idea/gradle.xml	(date 1604312990204)
+@@ -4,6 +4,7 @@
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
++        <option name="delegatedBuild" value="false" />
+         <option name="testRunner" value="PLATFORM" />
+         <option name="distributionType" value="DEFAULT_WRAPPED" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+@@ -15,7 +16,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
+-		<option name="delegatedBuild" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
