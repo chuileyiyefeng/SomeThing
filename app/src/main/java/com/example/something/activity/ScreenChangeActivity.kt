@@ -55,22 +55,32 @@ class ScreenChangeActivity : BaseActivity() {
         window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
     }
 
+    // java代码
+//    private void notFullScreen() {
+//        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+//        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().setAttributes(attrs);
+//        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//    }
+
     private fun fullScreen() {
-        val params = window.attributes
-        params.flags = params.flags or WindowManager.LayoutParams.FLAG_FULLSCREEN
-        window.attributes = params
-        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+    // java 代码
+//    private void fullScreen() {
+//    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//    }
 
     private fun addStatusView() {
-        val navi=true
+        val navi = true
         val window: Window = window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
         if (navi) {
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //状态栏不会被隐藏但activity布局会扩展到状态栏所在位置
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //导航栏不会被隐藏但activity布局会扩展到导航栏所在位置
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
+            window.decorView.systemUiVisibility =
+                (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //状态栏不会被隐藏但activity布局会扩展到状态栏所在位置
+                        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //导航栏不会被隐藏但activity布局会扩展到导航栏所在位置
+                        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
             window.navigationBarColor = Color.TRANSPARENT
         } else {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
@@ -78,7 +88,6 @@ class ScreenChangeActivity : BaseActivity() {
         }
 
     }
-
 
 
 }
