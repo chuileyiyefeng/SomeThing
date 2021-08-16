@@ -8,49 +8,13 @@ import androidx.annotation.NonNull;
  */
 public class TestGenerics {
     public static void main(String[] args) {
-//        noMethod();
-//        hasMethod();
-//        ImplMultipleGenerics<Integer, String> impl = new ImplMultipleGenerics<>(100, "money");
-//        System.out.println(impl.getKey() + " " + impl.getValue());
-//        ImplGeneral general = new ImplGeneral();
-//        general.next();
-//        Generic generic = new Generic();
-//        generic.genericMethod("xixi", "haha", "xixix");
-//        System.out.println(generic.genericMethod("xixi", "haha", "hehe"));
-//        Apple apple = new Apple();
-//        Generic.Person person = new Generic.Person();
-//        Generic.ShowClass<Fruit> fruitShowClass = new Generic.ShowClass<>();
-
-
-//        fruitShowClass.show1(apple);   //可以放入 apple，因为 apple 是 fruit 的子类
-//        fruitShowClass.show1(person);  //编译器会报错，因为 ShowClass<Fruit> 已经限定类型
-
-//        fruitShowClass.show2(apple); //可以放入，泛型方法 <T> 和泛型类中的 <T> 不是同一条 T，可以是任何非基本类型
-//        fruitShowClass.show2(person); //可以放入，泛型方法 <T> 和泛型类中的 <T> 不是同一条 T，可以是任何非基本类型
-//
-//        fruitShowClass.show3(apple); //可以放入，泛型方法 <E> 可以是任何非基本类型
-//        fruitShowClass.show3(person); //可以放入，泛型方法 <E> 可以是任何非基本类型
-//        BoundClass<String> boundClass=new BoundClass<>();
-//        boundClass.setT("apple");
-//        System.out.println(boundClass.min("orange"));
-//        FruitPlate plate=new FruitPlate();
-//        plate.set(new Apple());
-//        plate.set(new Orange());
-//        James james=new James();
-//        james.getSmartPlate(new FruitPlateGen<>());
-//        james.getSmartPlate(new FruitPlateGen<Orange>());
-
-//        FruitPlateGen<? extends Fruit> fruitPlateGen=new FruitPlateGen<>();
-//        Fruit fruit=fruitPlateGen.get();
-//        上限通配符无法 set 数据，但是，可以 get 数据且只能 get 到其上限 Fruit，所以，上限通配符可以安全的访问数据。
-
-        FruitPlateGen<? super Apple> fruitPlateGen1 = new FruitPlateGen<>();
-        Apple apple = new Apple();
-        fruitPlateGen1.set(apple);
-        Object o = fruitPlateGen1.get();
-//        下限通配符可以且只能 set 其下限 Apple，也可以 get 数据，但只能用 Object 接收(因为Object是所有类型的父类，这是一个特例)，所以，下限通配符可以安全的写入数据。
-
-//        Pair<char,int> pair=new Pair<>("test",2);// 无法实例化具有基本类型的泛型类型
+        noMethod();
+        Generic generic = new Generic();
+        Object o = generic.genericMethod("test1", "test2", 3, 4);
+        System.out.println(o);
+        James james=new James();
+        james.getSmartPlate(new FruitPlateGen<Fruit>());
+        james.getSmartPlate(new FruitPlateGen<Orange>());
     }
 
     // 没有使用泛型
@@ -85,13 +49,6 @@ public class TestGenerics {
             }
         }
 
-        static class Apple extends TestFruit {
-            @NonNull
-            @Override
-            public String toString() {
-                return "Apple";
-            }
-        }
 
         static class Person {
             @NonNull
@@ -101,6 +58,7 @@ public class TestGenerics {
             }
         }
 
+        // 泛型类使用泛型方法
         static class ShowClass<T> {
             public void show1(T t) {
                 System.out.println("show1");

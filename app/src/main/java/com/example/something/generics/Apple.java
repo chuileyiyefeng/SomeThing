@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
  * create by pan yi on 2020/11/17
  * desc :
  */
-public class Apple extends Fruit {
+ class Apple extends Fruit {
     @NonNull
     @Override
     public String toString() {

@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,8 +38,9 @@
         <activity android:name=".activity.SelectImageActivity" />
         <activity android:name=".activity.EditSomeThingActivity" />
         <activity android:name=".activity.TimeSelectActivity" />
-        <activity android:name=".activity.ScreenChangeActivity"
-            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".activity.ScreenChangeActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

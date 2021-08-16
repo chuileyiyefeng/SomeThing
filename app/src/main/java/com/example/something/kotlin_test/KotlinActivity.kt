@@ -6,6 +6,12 @@ import com.example.something.R
 import com.example.something.net_work.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_kotlin.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.produce
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 
 
 class KotlinActivity : BaseActivity() {
@@ -14,95 +20,50 @@ class KotlinActivity : BaseActivity() {
         return R.layout.activity_kotlin
     }
 
-    var token = ""
-    var user = ""
-
     @SuppressLint("SetTextI18n")
     override fun initView() {
-        tv_test.setOnClickListener {
-            Log.e(TAG, "主线程id：${mainLooper.thread.id}")
-//           runBlocking {
-//               repeat(5){
-//                   Log.e(TAG, "协程执行$it 线程id：${Thread.currentThread().id}")
-//                   delay(300L)
-//               }
-//           }
-
-            // 协程三个参数 协程上下文：协程执行的线程；启动模式；协程体
-            GlobalScope.launch {
-//                delay(3000L)
-//                Log.e(TAG, "协程执行  线程id：${Thread.currentThread().id}")
-                Log.e("TAG", "协程开始: ")
-//                val token = getToken()
-//                val user = getUser()
-
-                // async是不阻塞线程的,也就是说getToken和getUser是同时进行的
-                val result1 = GlobalScope.async {
-                    getToken()
+        val scope = MainScope()
+        scope.launch {
+//            flow {
+//                for (i in 1..3) {
+//                    Log.e("Flow", "$i emit")
+//                    emit(i)
+//                }
+//            }.filter {
+//                Log.e("Flow","$it filter")
+//                it % 2 != 0
+//            }.map {
+//                Log.e("Flow","$it map")
+//                "${it * it} money"
+//            }.collect {
+//                Log.e("Flow", "i get $it")
+//            }
+            val channel = Channel<Int>()
+            launch {
+                for (i in 1..3) {
+                    delay(200)
+                    channel.send(i)
                 }
-                val result2 = GlobalScope.async {
-                    getUser()
-                }
-
-//                Log.e(TAG, "$token  $user 线程id：${Thread.currentThread().id}")
-                val result = result1.await() + result2.await()
-                Log.e(TAG, result)
+                channel.close()
             }
-            Log.e(TAG, "协程结束: ")
-        }
-        val tvCtrl: Controller<TestBean> = Controller()
-        val bean = TestBean()
-        val string = ""
-
-
-        turnOn(bean)
-        turnOff(string)
-
-        val university: University<Student> = University("")
-        val femaleUniversity: University<FemaleStudent> = University<FemaleStudent>("")
-
-        val student: Student? = university.get()
-        val femaleStudent: Student? = university.get()
-
-    }
-
-    // 使用处协变 out修饰，只往外取
-    fun unGet(university: University<out Student>) {
-        val femaleStudent: Student? = university.get()
-    }
-    // 使用处逆变 in修饰，只往里放
-    fun unPut(university: University<in Student>) {
-        university.put(FemaleStudent())
-    }
-    class University<T>(val name: String) {
-        fun get(): T? {
-            return null
+            launch {
+                for (y in channel) {
+                    Log.e(TAG, "get $y")
+                }
+            }
+            val produce = produce<Int> {
+                for (i in 1..3) {
+                    delay(200)
+                    send(i * i)
+                }
+                close()
+            }
+            launch {
+                for (y in produce) {
+                    Log.e(TAG, "produce: $y")
+                }
+            }
         }
 
-        fun put(student: T) {
-
-        }
     }
-
-    private fun <T> turnOn(obj: T) {
-
-    }
-
-    private fun <T> turnOff(obj: T) {
-
-    }
-
-    // 协程里 suspend方法 顺序执行
-    private suspend fun getToken(): String {
-        delay(5000)
-        return "token"
-    }
-
-    private suspend fun getUser(): String {
-        delay(3000)
-        return "user"
-    }
-
-    open class Student
-    class FemaleStudent : Student()
 }

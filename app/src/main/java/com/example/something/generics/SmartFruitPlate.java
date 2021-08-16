@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class SmartFruitPlate<T> implements Plate<T> {
     private ArrayList<T> list = new ArrayList<T>();
 
+    private  T t;
     @Override
     public void set(T t) {
         list.add(t);

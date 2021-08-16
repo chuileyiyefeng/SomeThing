@@ -8,6 +8,9 @@ import com.example.something.R
 import com.example.something.net_work.base.BaseActivity
 import com.example.something.utils.NumberTextWatcher
 import kotlinx.android.synthetic.main.activity_edit_some.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.runBlocking
 
 /**
  * create by pan yi on 2020/10/13
@@ -45,9 +48,11 @@ class EditSomeThingActivity : BaseActivity() {
         )
         et_pwd.setSelection(et_pwd.text.toString().length)
         checkStatus = !checkStatus
+        val uiScope = CoroutineScope(SupervisorJob())
+
     }
 
-    fun hideInput(view: View) {
+    private fun hideInput(view: View) {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive) {
             imm.hideSoftInputFromWindow(view.applicationWindowToken, 0)

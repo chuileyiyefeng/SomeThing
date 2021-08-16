@@ -42,7 +42,7 @@ public class RetrofitUtils {
                 .build();
         // 兼容http接口
         ConnectionSpec spec1 = new ConnectionSpec.Builder(ConnectionSpec.CLEARTEXT).build();
-
+        HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         return new OkHttpClient().newBuilder()
 
                 .readTimeout(ConstantUrl.DEFAULT_TIME, TimeUnit.SECONDS)//设置读取超时时间
@@ -51,7 +51,8 @@ public class RetrofitUtils {
                 .addInterceptor(new LogInterceptor())//添加打印拦截器
 //                .addInterceptor(new NullInterceptor())
                 .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
-                .connectionSpecs(Arrays.asList(spec, spec1))// 解决https报错问题
+                .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)// 解决https ssl报错问题
+                .connectionSpecs(Arrays.asList(spec, spec1))// 解决https ssl 报错问题
                 .build();
     }
 }

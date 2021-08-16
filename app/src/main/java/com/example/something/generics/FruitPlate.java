@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class FruitPlate implements Plate {
 
-    private List items = new ArrayList();
+    private ArrayList items = new ArrayList();
 
     @Override
     public void set(Object o) {

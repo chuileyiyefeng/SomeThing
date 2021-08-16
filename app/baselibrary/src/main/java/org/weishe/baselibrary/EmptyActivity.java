@@ -1,6 +1,9 @@
 package org.weishe.baselibrary;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -38,5 +41,6 @@ public class EmptyActivity extends AppCompatActivity {
             finish();
         }
     }
+
 
 }

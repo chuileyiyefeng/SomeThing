@@ -23,4 +23,7 @@ public class James extends Person {
     public void add(SmartFruitPlate<Orange> smartFruitPlate, Orange orange) {
         smartFruitPlate.set(orange);
     }
+    public void add(SmartFruitPlate<Apple> smartFruitPlate, Apple apple) {
+        smartFruitPlate.set(apple);
+    }
 }
