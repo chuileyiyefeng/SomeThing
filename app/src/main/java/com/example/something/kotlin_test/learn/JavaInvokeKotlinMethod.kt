@@ -11,6 +11,7 @@ class JavaInvokeKotlinMethod {
     @JvmOverloads// 此注解，生成kotlin函数的重载版本
     fun setInfo(name: String = "张三", age: Int = 10, money: Int = 1000) {
         println("名字是 $name 年龄 $age")
+        println("名字是 $name 年龄 $age")
     }
 
     companion object {
