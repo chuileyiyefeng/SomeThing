@@ -21,6 +21,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowAnimationStyle">@style/inAndOutAnimation</item>
     </style>
     <style name="inAndOutAnimation" parent="@android:style/Animation.Dialog">
