@@ -2,13 +2,13 @@ package com.example.something;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.something.activity.EditSomeThingActivity;
+import com.example.something.activity.MotionLayoutActivity;
 import com.example.something.activity.ScreenChangeActivity;
 import com.example.something.activity.SelectImageActivity;
 import com.example.something.activity.TimeSelectActivity;
@@ -31,19 +31,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        Log.e(TAG, "initView: ");
-        TextView tvNet = findViewById(R.id.tv_net);
-        TextView tvKotlin = findViewById(R.id.tv_kotlin);
-
-        tvNet.setTextColor(getResources().getColor(R.color.colorLine, null));
-
-        tvKotlin.setTextColor(getResources().getColor(R.color.title_color, null));
     }
 
     @SuppressLint("NonConstantResourceId")
     @OnClick({R.id.tv_net, R.id.tv_mvp, R.id.tv_rx_java,
             R.id.tv_photo, R.id.tv_kotlin, R.id.tv_photo_system,
-            R.id.tv_input, R.id.tv_time, R.id.tv_screen_change, R.id.tv_web})
+            R.id.tv_input, R.id.tv_time, R.id.tv_screen_change, R.id.tv_motion})
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.tv_net:
@@ -59,7 +52,9 @@ public class MainActivity extends BaseActivity {
                 startActivity(new Intent(this, TestRxJavaActivity.class));
                 break;
             case R.id.tv_photo:
-                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> Toast.makeText(this, "selectResult : " + strings.get(0), Toast.LENGTH_SHORT).show()).start(this);
+                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> {
+                    Toast.makeText(this, "selectResult : " + strings.get(0), Toast.LENGTH_SHORT).show();
+                }).start(this);
                 break;
             case R.id.tv_photo_system:
                 startActivity(new Intent(this, SelectImageActivity.class));
@@ -72,6 +67,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_screen_change:
                 startActivity(new Intent(this, ScreenChangeActivity.class));
+                break;
+            case R.id.tv_motion:
+                startActivity(new Intent(this, MotionLayoutActivity.class));
                 break;
         }
     }

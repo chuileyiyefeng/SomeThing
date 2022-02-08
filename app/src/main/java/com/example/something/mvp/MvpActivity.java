@@ -46,6 +46,11 @@ public class MvpActivity extends BaseView<LoginPresent, LoginContract.V> {
                 p.getContract().login(etName.getText().toString(), etPwd.getText().toString());
             }
         });
+        // length =10   9 8 7 6 5 4 3 2 1 0  98 87 76 65 54 32 21 10   8 7 6 5 4 3 2 1 0 9
+        // i=0  9 外循环  第一次
+        // 0 8 // 内循环
+
+
 //        tvLogin.setOnClickListener(v -> p.getContract().login(etName.getText().toString(), etPwd.getText().toString()));
     }
 

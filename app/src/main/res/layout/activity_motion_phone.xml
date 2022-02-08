@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_motion_phone_scene"
+    tools:ignore="ContentDescription,HardcodedText">
+
+
+    <TextView
+        android:id="@+id/iv_call"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@color/blue_y"
+        android:gravity="center"
+        android:text="假装是拨号页面"
+        android:textColor="@color/white"
+        tools:layout_editor_absoluteY="181dp" />
+
+
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/mediumaquamarine"
+        android:gravity="center"
+        android:text="假装是tab页面"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        app:overlay="false"
+        android:id="@+id/iv_phone"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_call"
+        app:altSrc="@mipmap/ic_phone" />
+</androidx.constraintlayout.motion.widget.MotionLayout>

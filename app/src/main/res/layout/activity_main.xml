@@ -121,13 +121,13 @@
         <include layout="@layout/line_view_gray_1" />
 
         <TextView
-            android:id="@+id/tv_web"
+            android:id="@+id/tv_motion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:padding="15dp"
-            android:text="scrollview嵌套webView"
+            android:text="MotionLayout"
             android:textColor="@color/text_color" />
 
         <include layout="@layout/line_view_gray_1" />
