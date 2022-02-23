@@ -1,5 +1,8 @@
 package com.example.something.activity
 
+import android.graphics.Paint
+import android.view.View
+import androidx.lifecycle.LiveData
 import com.example.something.R
 import com.example.something.net_work.base.BaseActivity
 
@@ -14,5 +17,15 @@ class MotionPhoneActivity : BaseActivity() {
     }
 
     override fun initView() {
+        val paint = Paint()
+        val view = View(this)
+        val test = "test"
+    }
+
+    private fun showName() {
+        epic("input", 10, 10)
+    }
+
+    private fun epic(name: String, color: Int, age: Int) {
     }
 }

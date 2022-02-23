@@ -1,7 +1,11 @@
 package com.example.something.activity
 
 import android.content.Context
+import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.example.something.R
@@ -10,13 +14,35 @@ import com.example.something.utils.NumberTextWatcher
 import kotlinx.android.synthetic.main.activity_edit_some.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.runBlocking
 
 /**
  * create by pan yi on 2020/10/13
  * desc : 输入法操作相关
  */
 class EditSomeThingActivity : BaseActivity() {
+
+    var maxLength = 10
+    private val filter by lazy {
+        InputFilter { source, start, end, dest, dstart, dend ->
+            for (i in start until end) {
+                if (!isChinese(source[i])) {
+                    return@InputFilter ""
+                }
+            }
+            null
+        }
+    }
+
+    /**
+     * 判断中文字符
+     * @param c
+     * @return
+     */
+    private fun isChinese(c: Char): Boolean {
+        val ub = Character.UnicodeBlock.of(c)
+        return ub === Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS || ub === Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS || ub === Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A || ub === Character.UnicodeBlock.GENERAL_PUNCTUATION || ub === Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION || ub === Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS
+    }
+
     override fun bindLayout(): Int {
         return R.layout.activity_edit_some
     }
@@ -29,6 +55,32 @@ class EditSomeThingActivity : BaseActivity() {
             checkInputStatus()
         }
         et_number.addTextChangedListener(NumberTextWatcher(et_number))
+
+        et_max_count.filters = arrayOf(filter)
+        et_max_count.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                s?.let {
+                    val totalLength = it.length
+                    Log.e("addTextChangedListener", "$totalLength")
+                    if (totalLength > maxLength) {
+                        val text=it.subSequence(0, maxLength).toString()
+                        Log.e("addTextChangedListener", "$totalLength  $text")
+                        et_max_count.setText(text)
+                        et_max_count.setSelection(text.length)
+                    }
+                }
+            }
+
+        })
+
     }
 
     private var checkStatus = false
