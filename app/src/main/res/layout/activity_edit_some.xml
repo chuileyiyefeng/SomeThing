@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="限制中文字符及长度" />
+                android:text="限制中文字符 长度 空格" />
 
             <EditText
                 android:id="@+id/et_max_count"

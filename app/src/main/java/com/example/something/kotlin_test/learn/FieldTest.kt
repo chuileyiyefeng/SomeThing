@@ -1,5 +1,7 @@
 package com.example.something.kotlin_test.learn
 
+import java.util.*
+
 /**
  *  create by pan yi on 2021/7/7
  *  desc :
@@ -12,7 +14,7 @@ fun main() {
 
 class TestT {
     var name = "Jack"
-        get() = field.capitalize()
+        get() = field.capitalize(Locale.CHINA)
         set(value) {
             field = value.trim()
         }

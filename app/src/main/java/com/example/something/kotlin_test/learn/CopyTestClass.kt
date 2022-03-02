@@ -7,7 +7,7 @@ package com.example.something.kotlin_test.learn
 data class Student(var name: String, var age: Int) {
     var score = 10;
     private val hobby = "Music"
-    val subject: String
+    private val subject: String
 
     init {
         println("init student")

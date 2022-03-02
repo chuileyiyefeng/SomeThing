@@ -22,6 +22,10 @@ import kotlinx.coroutines.SupervisorJob
 class EditSomeThingActivity : BaseActivity() {
 
     var maxLength = 10
+    val name: String by lazy {
+        intent.getStringExtra("name") ?: ""
+    }
+    //中文过滤器
     private val filter by lazy {
         InputFilter { source, start, end, dest, dstart, dend ->
             for (i in start until end) {
@@ -30,6 +34,12 @@ class EditSomeThingActivity : BaseActivity() {
                 }
             }
             null
+        }
+    }
+    //空格过滤器
+    private val blankFilter by lazy {
+        InputFilter { source, start, end, dest, dstart, dend ->
+            if (source == " " || source.toString().contentEquals("\n")) "" else null
         }
     }
 
@@ -56,7 +66,7 @@ class EditSomeThingActivity : BaseActivity() {
         }
         et_number.addTextChangedListener(NumberTextWatcher(et_number))
 
-        et_max_count.filters = arrayOf(filter)
+        et_max_count.filters = arrayOf(filter,blankFilter)
         et_max_count.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -71,7 +81,7 @@ class EditSomeThingActivity : BaseActivity() {
                     val totalLength = it.length
                     Log.e("addTextChangedListener", "$totalLength")
                     if (totalLength > maxLength) {
-                        val text=it.subSequence(0, maxLength).toString()
+                        val text = it.subSequence(0, maxLength).toString()
                         Log.e("addTextChangedListener", "$totalLength  $text")
                         et_max_count.setText(text)
                         et_max_count.setSelection(text.length)
