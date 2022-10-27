@@ -9,30 +9,32 @@ import java.util.Arrays;
  */
 public class Code2 {
     public static void main(String[] args) {
-        int nums[] = {2, 8, 1, 90, 24, 6};
-        insertSort(nums);
-//        System.out.println(Arrays.toString(nums));
+        System.out.println(Arrays.toString(insertSort()));
     }
 
-    // i=2 8>1  temp=1  j=2&&8>1 [2]=8  j-- j=1 3>1  [1]=3 [0]=1
-    public static void insertSort(int[] unsorted) {
-        int times=0;
+    public static int[] insertSort() {
+        int times = 0;
+        int[] unsorted = {2, 8, 1, 90, 24, 6};
         for (int i = 1; i < unsorted.length; i++) {
             times++;
-            if (unsorted[i - 1] > unsorted[i]) {// 3>1
-                int temp = unsorted[i];// 1
-                int j = i;// j=1
+            int temp = unsorted[i];
+            int j = i;
+
+            while (j > 0 && temp < unsorted[j - 1]) {// 2 8 8 j=2
+                System.out.println("j=" + j + " temp=" + temp);
+                unsorted[j] = unsorted[j - 1];
                 times++;
-                while (j > 0 && unsorted[j - 1] > temp) {// j=1 && 3>1?
-                    times++;
-                    unsorted[j] = unsorted[j - 1];
-                    j--;
-//                    System.out.println(Arrays.toString(unsorted));// 8 8 1
-                }
-                unsorted[j] = temp;// 3 8 1
+                j--;
                 System.out.println(Arrays.toString(unsorted));
             }
+            System.out.println("循环外");
+            if (j != i) {
+                unsorted[j] = temp;
+            }
+            System.out.println(Arrays.toString(unsorted));
+            System.out.println("times: " + times);
         }
-        System.out.println("times: "+times);
+        return unsorted;
     }
+
 }

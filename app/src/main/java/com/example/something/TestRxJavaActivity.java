@@ -77,7 +77,7 @@ public class TestRxJavaActivity extends BaseActivity {
 
             @Override
             public void onNext(String s) {
-                Log.e(TAG, "onNext: "+s );
+                Log.e("TAG", "onNext: "+s );
             }
 
             @Override

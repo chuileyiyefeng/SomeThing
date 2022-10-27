@@ -64,7 +64,7 @@ class ScreenChangeActivity : BaseActivity() {
 //    }
 
     private fun fullScreen() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
     // java 代码
 //    private void fullScreen() {
@@ -86,8 +86,5 @@ class ScreenChangeActivity : BaseActivity() {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
         }
-
     }
-
-
 }

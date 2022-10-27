@@ -25,6 +25,7 @@ class EditSomeThingActivity : BaseActivity() {
     val name: String by lazy {
         intent.getStringExtra("name") ?: ""
     }
+
     //中文过滤器
     private val filter by lazy {
         InputFilter { source, start, end, dest, dstart, dend ->
@@ -36,6 +37,7 @@ class EditSomeThingActivity : BaseActivity() {
             null
         }
     }
+
     //空格过滤器
     private val blankFilter by lazy {
         InputFilter { source, start, end, dest, dstart, dend ->
@@ -66,7 +68,7 @@ class EditSomeThingActivity : BaseActivity() {
         }
         et_number.addTextChangedListener(NumberTextWatcher(et_number))
 
-        et_max_count.filters = arrayOf(filter,blankFilter)
+        et_max_count.filters = arrayOf(filter, blankFilter)
         et_max_count.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -84,7 +86,7 @@ class EditSomeThingActivity : BaseActivity() {
                         val text = it.subSequence(0, maxLength).toString()
                         Log.e("addTextChangedListener", "$totalLength  $text")
                         et_max_count.setText(text)
-                        et_max_count.setSelection(text.length)
+                        et_max_count.setSelection(et_max_count.text.length)
                     }
                 }
             }

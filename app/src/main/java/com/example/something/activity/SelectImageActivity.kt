@@ -152,7 +152,7 @@ class SelectImageActivity : BaseActivity() {
         ) //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         while (baos.toByteArray().size > ImageSize * 1024 * 1024) { //循环判断如果压缩后图片是否大于ImageSize 单位：M,大于继续压缩
             Log.e(
-                TAG,
+                "TAG",
                 "compressBitmap: " + baos.toByteArray().size + " size " + (ImageSize * 1024 * 1024)
             )
             subtract = getSubtractSize(baos.toByteArray().size / 1024)
@@ -172,7 +172,7 @@ class SelectImageActivity : BaseActivity() {
         }
         try {
             val realPath = filePath + "/" + System.currentTimeMillis().toString() + ".jpg"
-            Log.e(TAG, "compressBitmap: $realPath")
+            Log.e("TAG", "compressBitmap: $realPath")
             val fos = FileOutputStream(File(realPath)) //将压缩后的图片保存的本地上指定路径中
             fos.write(baos.toByteArray())
             fos.flush()

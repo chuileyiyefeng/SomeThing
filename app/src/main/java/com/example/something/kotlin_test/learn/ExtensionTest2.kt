@@ -11,10 +11,12 @@ inline fun <T> T.apply2(block: T.() -> Unit): T {
     return this
 }
 
+
 fun main() {
     val file = File("pathName").apply2 {
         setReadable(true)
     }
+
 
     // 分解这个apply2方法
     fun File.ext(): Unit {

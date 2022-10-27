@@ -1,7 +1,9 @@
 package com.example.something.scope
 
+import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import org.weishe.baselibrary.utils.log
 import java.lang.Exception
 import kotlin.system.measureTimeMillis
 
@@ -9,16 +11,21 @@ import kotlin.system.measureTimeMillis
  *  create by pan yi on 2021/1/7
  *  desc :
  */
-fun main(args: Array<String>) {
+fun main() {
+    log("start")
     GlobalScope.launch {
-        delay(200)
-        println("global")
-    }
-    runBlocking {
-        delay(1000)
-        println("runBlocking")
+        launch {
+            delay(400)
+            log("delay a")
+        }
+        launch {
+            delay(300)
+            log("delay b")
+        }
     }
 
+    Thread.sleep(500)
+    log("the end")
 
 }
 

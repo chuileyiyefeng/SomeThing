@@ -9,13 +9,13 @@ import org.weishe.baselibrary.listener.SelectResultListener;
 import org.weishe.baselibrary.listener.SelectResultListenerParent;
 
 public class ImageSelectUtils {
-    private static ImageSelectUtils selectUtils;
+    private static volatile ImageSelectUtils selectUtils;
     private static SelectPhotoBean photoBean;
 
     private ImageSelectUtils() {
     }
 
-    public static ImageSelectUtils getInstance() {
+    public  static ImageSelectUtils getInstance() {
         if (selectUtils == null) {
             synchronized (ImageSelectUtils.class) {
                 if (selectUtils == null) {

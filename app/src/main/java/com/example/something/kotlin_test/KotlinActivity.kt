@@ -22,6 +22,7 @@ class KotlinActivity : BaseActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView() {
+        tv_test.visible()
         val scope = MainScope()
         scope.launch {
 //            flow {

@@ -12,6 +12,7 @@ import com.example.something.activity.MotionLayoutActivity;
 import com.example.something.activity.ScreenChangeActivity;
 import com.example.something.activity.SelectImageActivity;
 import com.example.something.activity.TimeSelectActivity;
+import com.example.something.databinding.ActivityMainBinding;
 import com.example.something.kotlin_test.KotlinActivity;
 import com.example.something.mvp.MvpActivity;
 import com.example.something.net_work.TestNetWorkActivity;
@@ -31,6 +32,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        findViewById(R.id.tv_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageSelectUtils.getInstance().setMaxPhoto(9).setSelectResult(strings -> {
+                    Toast.makeText(MainActivity.this, "selectResult : " + strings.get(0), Toast.LENGTH_SHORT).show();
+                }).start(MainActivity.this);
+            }
+        });
     }
 
     @SuppressLint("NonConstantResourceId")
